@@ -50,7 +50,6 @@ app.use("/", (req, res, next) => {
 
 router.route("/projects")
   .get((req, res) => {
-    console.log("You've reached the '/projects' route. Please leave a message and we'll call you back");
     res.send({ projects: [ ...fake_projects ] });
   })
 

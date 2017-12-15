@@ -17,12 +17,10 @@ export default class Leaderboard extends Component {
     fetch(`${this.props.apiURL}/projects`)
       .then(res => {
         if (res.ok) {
-          console.log("the response is ok", res.body);
           return res.json();
-        } else console.log("there's been a response error");
+        } else throw new Error(`response error: status ${res.status}`);
       })
       .then(res => {
-        console.log(res);
         this.setState(prev => {
           const projects = [ ...prev.projects, ...res.projects];
           return { projects }
@@ -43,7 +41,6 @@ export default class Leaderboard extends Component {
   // render functions
   renderProjects = projects => {
     return projects.map(project => {
-      // console.log(project);
       return (
         <ProjectCard
           key={ project.uniqueID }
