@@ -3,8 +3,13 @@
 // dependencies
 const express = require("express");
 
+// load local env vars only in development env
+if (process.env.NODE_ENV !== "production") {
+  require('dotenv').load()
+}
+
 // env vars
-const PORT = process.env.API_PORT || 3001;
+const PORT = process.env.API_PORT;
 
 // modules of dependencies
 const app = express();
@@ -38,10 +43,15 @@ const fake_projects = [
     uniqueID: "1111113ccccc" },
 ]
 
+app.use("/", (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+})
+
 router.route("/projects")
   .get((req, res) => {
     console.log("You've reached the '/projects' route. Please leave a message and we'll call you back");
-    res.json({ fake_projects })
+    res.send({ projects: [ ...fake_projects ] });
   })
 
 app.use("/api", router);
