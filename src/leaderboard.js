@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './style/leaderboard.css';
 import ProjectCard from './project_card';
 import ProjectPopUp from './project_pop_up';
-import DATA from './data';
 
 export default class Leaderboard extends Component {
   constructor(props) {
@@ -13,13 +12,20 @@ export default class Leaderboard extends Component {
     }
   }
 
-
   // lifecycle methods
   componentDidMount() {
-    this.setState(prev => {
-      const projects = [ ...prev.projects, ...DATA];
-      return { projects }
-    })
+    fetch(`${this.props.apiURL}/projects`)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else throw new Error(`response error: status ${res.status}`);
+      })
+      .then(res => {
+        this.setState(prev => {
+          const projects = [ ...prev.projects, ...res.projects];
+          return { projects }
+        })
+      })
   }
 
   // event handlers
@@ -35,12 +41,12 @@ export default class Leaderboard extends Component {
   // render functions
   renderProjects = projects => {
     return projects.map(project => {
-      // console.log(project);
       return (
         <ProjectCard
-          key={ project.id }
-          id={ project.id }
+          key={ project.uniqueID }
+          id={ project.uniqueID }
           name={ project.name }
+          team={ project.team }
           description={ project.description }
           togglePopUp={ () => this.toggleProject(project.id) }
         />

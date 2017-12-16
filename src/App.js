@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 import Leaderboard from './leaderboard';
 
-// 1. the "feed box"
-// 2. an idea card
-
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Leaderboard />
+        <Leaderboard
+          apiURL={ this.props.apiURL }
+        />
       </div>
     );
   }
 }
-
-export default App;
