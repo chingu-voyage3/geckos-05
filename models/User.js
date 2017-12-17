@@ -13,6 +13,10 @@ const userSchema = new Schema({
         },
         required: [true, "Name is required"]
     },
+    password: {
+        type: String,
+        required: [true, "password is required"]
+    },
     projectIdea: [{
         types: Schema.Types.ObjectId,
         ref: 'projectIdea'
