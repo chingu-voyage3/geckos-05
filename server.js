@@ -32,7 +32,7 @@ app.use(express.static("/react-ui/build"));
 router.route("/projects")
   .get((req, res) => {
     res.setHeader("Content-Type", "application/json");
-    res.send('{"message": "you\'ve reached the projects api route, please leave us a message and we\'ll get back to you as soon as this api does something"}');
+    res.send({ projects: DATA });
   })
 
 app.use("/api", router);

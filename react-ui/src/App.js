@@ -5,9 +5,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Leaderboard
-          apiURL={ this.props.apiURL }
-        />
+        <Leaderboard/>
       </div>
     );
   }

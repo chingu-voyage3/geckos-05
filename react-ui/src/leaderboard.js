@@ -14,7 +14,7 @@ export default class Leaderboard extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    fetch("api/projects")
+    fetch("/api/projects", { "Accept": "application/json"})
       .then(res => {
         console.log(res);
         if (res.ok) {
@@ -23,15 +23,21 @@ export default class Leaderboard extends Component {
       })
       .then(res => {
         this.setState(prev => {
-          const projects = [ ...prev.projects, ...res.projects];
-          return { projects }
+          if (res.projects) {
+            return { projects: [ ...prev.projects, ...res.projects ] };
+          } else if (prev.projects && prev.projects.length !== 0) {
+            return
+          } else {
+            console.log("this is not the data you're looking for");
+            return { noData: true };
+          }
         })
       })
       .catch(err => {
         alert("Uh-oh. No data retrieved from server");
         this.setState(prev => {
           console.log(prev.projects, prev.projects.length);
-          return !prev.projects || prev.projects.length === 0 ?
+          return (!prev.projects || prev.projects.length === 0) ?
             { noData: true } : null;
         });
       })
