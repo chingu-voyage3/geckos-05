@@ -14,8 +14,9 @@ export default class Leaderboard extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    fetch(`${this.props.apiURL}/projects`)
+    fetch("api/projects")
       .then(res => {
+        console.log(res);
         if (res.ok) {
           return res.json();
         } else throw new Error(`response error: status ${res.status}`);

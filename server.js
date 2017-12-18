@@ -24,14 +24,15 @@ app.use("/", (req, res, next) => {
   next();
 })
 
-//
+// tutorial says "Priority serve any static files"
+// does this not do the same as get("*", callback => sendFile("<react-stuff>"))?
 app.use(express.static("/react-ui/build"));
 
 // CRUD methods for projects api
 router.route("/projects")
   .get((req, res) => {
     res.setHeader("Content-Type", "application/json");
-    res.send('{"message": "you\'ve reached the api route, please leave us a message and we\'ll get back to you as soon as this api does something"}');
+    res.send('{"message": "you\'ve reached the projects api route, please leave us a message and we\'ll get back to you as soon as this api does something"}');
   })
 
 app.use("/api", router);
