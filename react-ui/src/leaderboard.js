@@ -27,13 +27,17 @@ export default class Leaderboard extends Component {
         })
       })
       .catch(err => {
-        alert("we got nuthin for ya");
-        throw new Error(err);
+        alert("Uh-oh. No data retrieved from server");
+        this.setState(prev => {
+          console.log(prev.projects, prev.projects.length);
+          return !prev.projects || prev.projects.length === 0 ?
+            { noData: true } : null;
+        });
       })
   }
 
   // event handlers
-  toggleProject = (projectID) => {
+  toggleProject = projectID => {
     this.setState(prev => {
       if (prev.openProject === projectID) {
         return { openProject: null }
@@ -73,7 +77,9 @@ export default class Leaderboard extends Component {
   render() {
     return (
       <div className="leaderboard">
-        { this.renderProjects(this.state.projects) }
+        { this.state.noData ?
+          <p style={ {background: "#f66", padding: "1rem"} }>Sorry, no project data found</p> :
+          this.renderProjects(this.state.projects) }
         { this.state.openProject && this.renderPopUp(this.state.openProject) }
       </div>
     )

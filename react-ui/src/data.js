@@ -1,29 +1,28 @@
 const data = [
-  {
-    id: 11111,
-    name: "first project",
-    description: "it's a secret"
-  },
-  {
-    id: 11112,
-    name: "another project",
-    description: "describe this"
-  },
-  {
-    id: 11113,
-    name: "project X",
-    description: "from outer space"
-  },
-  {
-    id: 11114,
-    name: "The Great Project",
-    description: "will never be finished"
-  },
-  {
-    id: 11115,
-    name: "life",
-    description: "ain't it grand?"
-  },
-]
+  { name: "My Project",
+    description: "We made a thing!",
+    team: "Squids-23",
+    cohort: "Summer 2017",
+    repo: "/squids-23/my_project",
+    stack: ["React", "JQuery"],
+    categories: ["landing page", "original"],
+    uniqueID: "1111111aaaaa" },
+  { name: "My Project 2",
+    description: "We made another thing!",
+    team: "Nutrias-66",
+    cohort: "Fall 2017",
+    repo: "/Chingu-cohorts/Nutrias-66/project_2",
+    stack: ["Vue", "D3"],
+    categories: ["Chrome extension", "Momentum clone", "Github API", "original"],
+    uniqueID: "1111112bbbbb" },
+  { name: "My Project III",
+    description: "We made a third thing!",
+    team: "Pigeons-54",
+    cohort: "Winter 2017",
+    repo: "/Chingu-Voyage3/Pigeons-54/project_iii",
+    stack: ["Angular", "Express", "PostgreSQL", "Slack API"],
+    categories: ["full-stack", "bot", "Slack bot", "clone"],
+    uniqueID: "1111113ccccc" },
+];
 
-export default data;
+module.exports = data;
