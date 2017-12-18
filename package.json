@@ -1,6 +1,7 @@
 {
   "name": "idea-feed",
   "version": "0.1.0",
+  "description": "A place to showcase Chingu-coders projects",
   "private": true,
   "engines": {
     "node": "8.9.x"
@@ -18,5 +19,18 @@
   "cacheDirectories": [
     "node_modules",
     "react-ui/node_modules"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chingu-voyage3/geckos-05"
+  },
+  "keywords": [
+    "chingu",
+    "node",
+    "express",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "license": "MIT"
 }
