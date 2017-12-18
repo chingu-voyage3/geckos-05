@@ -12,7 +12,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // env vars
-const PORT = process.env.API_PORT;
+const PORT = process.env.NODE_ENV !== "production" ?
+  process.env.API_PORT : process.env.PORT;
 
 // modules of dependencies
 const app = express();
