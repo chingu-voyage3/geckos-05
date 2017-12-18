@@ -2,6 +2,7 @@
 
 // dependencies
 const express = require("express");
+const path = require("path");
 
 // load example data hardcoded in local file
 const DATA = require("./react-ui/src/data.js");
@@ -13,13 +14,14 @@ if (process.env.NODE_ENV !== "production") {
 
 // env vars
 const PORT = process.env.NODE_ENV !== "production" ?
-  process.env.API_PORT : process.env.PORT;
+  (process.env.API_PORT || 3001) : process.env.PORT;
 
 // modules of dependencies
 const app = express();
 const router = express.Router();
 
 // allow any origin for any route
+// TODO: I think I could change this is something more specific
 app.use("/", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
@@ -27,7 +29,7 @@ app.use("/", (req, res, next) => {
 
 // tutorial says "Priority serve any static files"
 // does this not do the same as get("*", callback => sendFile("<react-stuff>"))?
-app.use(express.static("/react-ui/build"));
+app.use(express.static(path.resolve(__dirname, "/react-ui/build")));
 
 // CRUD methods for projects api
 router.route("/projects")
@@ -38,8 +40,10 @@ router.route("/projects")
 
 app.use("/api", router);
 
+// All remaining unhandled requests return the React app
+// TODO: put error handling in here so I know where ssomething's gone wrong when it goes wrong
 app.get("*", (req, res) => {
-  res.sendFile("/react-ui/build/index.html");
+  res.sendFile(path.resolve(__dirname, "/react-ui/build", "index.html");
 })
 
 app.listen(PORT, () => {
