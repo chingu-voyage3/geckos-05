@@ -1,0 +1,7 @@
+@import "./leaderboard.css";
+@import "./project_card.css";
+@import "./project_pop_up.css";
+
+.App {
+  text-align: center;
+}

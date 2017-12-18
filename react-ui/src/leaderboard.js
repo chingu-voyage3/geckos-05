@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './style/leaderboard.css';
 import ProjectCard from './project_card';
 import ProjectPopUp from './project_pop_up';
 

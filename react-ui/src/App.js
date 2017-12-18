@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Leaderboard from './leaderboard';
+import './style/app.css';
 
 export default class App extends Component {
   render() {
