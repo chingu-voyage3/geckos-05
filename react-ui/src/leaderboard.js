@@ -26,6 +26,10 @@ export default class Leaderboard extends Component {
           return { projects }
         })
       })
+      .catch(err => {
+        alert("we got nuthin for ya");
+        throw new Error(err);
+      })
   }
 
   // event handlers
