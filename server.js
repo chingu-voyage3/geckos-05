@@ -43,17 +43,27 @@ const fake_projects = [
     uniqueID: "1111113ccccc" },
 ]
 
+// allow any origin for any route
 app.use("/", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 })
 
+//
+app.use(express.static("/react-ui/build"));
+
+// CRUD methods for projects api
 router.route("/projects")
   .get((req, res) => {
-    res.send({ projects: [ ...fake_projects ] });
+    res.setHeader("Content-Type", "application/json");
+    res.send('{"message": "you\'ve reached the api route, please leave us a message and we\'ll get back to you as soon as this api does something"}');
   })
 
 app.use("/api", router);
+
+app.get("*", (req, res) => {
+  res.sendFile("/react-ui/build/index.html");
+})
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
