@@ -2,6 +2,9 @@
   "name": "idea-feed",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.9.x"
+  },
   "dependencies": {
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
@@ -11,5 +14,9 @@
   "scripts": {
     "start": "nodemon server.js",
     "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
-  }
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ]
 }
