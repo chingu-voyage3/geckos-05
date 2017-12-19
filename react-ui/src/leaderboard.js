@@ -62,7 +62,7 @@ export default class Leaderboard extends Component {
           name={ project.name }
           team={ project.team }
           description={ project.description }
-          togglePopUp={ () => this.toggleProject(project.id) }
+          togglePopUp={ () => this.toggleProject(project.uniqueID) }
         />
       )
     })
@@ -70,7 +70,7 @@ export default class Leaderboard extends Component {
 
   renderPopUp = id => {
     const project = this.state.projects.filter(proj => {
-      return proj.id === id
+      return proj.uniqueID === id
     })[0];
     return (
       <ProjectPopUp
