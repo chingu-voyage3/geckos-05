@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './style/project_pop_up.css';
 
 export default class ProjectPopUp extends Component {
   constructor(props) {

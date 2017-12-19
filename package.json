@@ -1,21 +1,39 @@
 {
   "name": "idea-feed",
   "version": "0.1.0",
+  "description": "A place to showcase Chingu-coders projects",
   "private": true,
+  "engines": {
+    "node": "8.9.x"
+  },
   "dependencies": {
     "dotenv": "^4.0.0",
-    "express": "^4.16.2",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
     "foreman": "^2.0.0",
-    "nodemon": "^1.12.5",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "nodemon": "^1.12.5"
   },
   "scripts": {
-    "start-dev": "nf start -p 3000",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "start": "nf start -p 3000 -j Procfile.dev",
+    "nf-help": "nf --help",
+    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chingu-voyage3/geckos-05"
+  },
+  "keywords": [
+    "chingu",
+    "node",
+    "express",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "license": "MIT"
 }
