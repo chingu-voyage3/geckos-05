@@ -47,7 +47,8 @@ app.use("/api", router);
 
 // All remaining unhandled requests return the React app
 // TODO: put error handling in here so I know where something's gone wrong when it goes wrong
-app.get("*", (req, res) => {
+// BUG: if "/" serves all sub-paths, how to restrict sub-paths and serve _only_ route "/"
+app.get("/", (req, res) => {
   const pathToReact = path.resolve(__dirname, "react-ui/build", "index.html");
   console.log(pathToReact);
   res.sendFile(path.resolve(pathToReact));

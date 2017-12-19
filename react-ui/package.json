@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "serve": "serve -s build",
+    "serve": "serve -s build -p 3000 -o http://localhost:3000",
     "serve-help": "serve help",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
