@@ -13,7 +13,8 @@
     "nodemon": "^1.12.5"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nf start -p 3000 -j Procfile.dev",
+    "nf-help": "nf --help",
     "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "cacheDirectories": [

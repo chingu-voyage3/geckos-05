@@ -22,4 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # experimentally ignore procfile for heroku deploy
-Procfile
+# and then experimentally un-ignore the procfile
+# Procfile
