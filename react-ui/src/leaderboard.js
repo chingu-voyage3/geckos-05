@@ -11,35 +11,63 @@ export default class Leaderboard extends Component {
     }
   }
 
-  // lifecycle methods
-  componentDidMount() {
-    fetch("/api/projects", { "Accept": "application/json"})
+  fetchGithub = () => {
+    fetch("https://api.github.com/orgs/chingu-voyage3/repos")
       .then(res => {
-        console.log(res);
-        if (res.ok) {
-          return res.json();
-        } else throw new Error(`response error: status ${res.status}`);
+        if (!res.ok) {
+          console.error("problem!", res.status);
+        }
+        // console.log(res);
+        return res.json();
       })
-      .then(res => {
+      .then(json => {
+        console.log(json);
         this.setState(prev => {
-          if (res.projects) {
-            return { projects: [ ...prev.projects, ...res.projects ] };
-          } else if (prev.projects && prev.projects.length !== 0) {
-            return
-          } else {
-            console.log("this is not the data you're looking for");
-            return { noData: true };
+        if (prev.projects){
+          return {
+            projects: [...prev.projects, ...json]
           }
+        } else {
+          return {
+            projects: json
+          }
+        }
         })
       })
-      .catch(err => {
-        alert("Uh-oh. No data retrieved from server");
-        this.setState(prev => {
-          console.log(prev.projects, prev.projects.length);
-          return (!prev.projects || prev.projects.length === 0) ?
-            { noData: true } : null;
-        });
-      })
+  }
+
+// https://github.com/pksunkara/octonode
+
+  // lifecycle methods
+  componentDidMount() {
+    this.fetchGithub();
+    // fetch("/api/projects", { "Accept": "application/json" })
+    //   .then(res => {
+    //     // console.log(res);
+    //     if (res.ok) {
+    //       return res.json();
+    //     } else throw new Error(`response error: status ${res.status}`);
+    //   })
+    //   .then(res => {
+    //     this.setState(prev => {
+    //       if (res.projects) {
+    //         return { projects: [ ...prev.projects, ...res.projects ] };
+    //       } else if (prev.projects && prev.projects.length !== 0) {
+    //         return
+    //       } else {
+    //         console.log("this is not the data you're looking for");
+    //         return { noData: true };
+    //       }
+    //     })
+    //   })
+    //   .catch(err => {
+    //     alert("Uh-oh. No data retrieved from server");
+    //     this.setState(prev => {
+    //       console.log(prev.projects, prev.projects.length);
+    //       return (!prev.projects || prev.projects.length === 0) ?
+    //         { noData: true } : null;
+    //     });
+    //   })
   }
 
   // event handlers
@@ -57,12 +85,12 @@ export default class Leaderboard extends Component {
     return projects.map(project => {
       return (
         <ProjectCard
-          key={ project.uniqueID }
-          id={ project.uniqueID }
+          key={ project.id }
+          id={ project.id }
+          url= { project.owner.url }
           name={ project.name }
-          team={ project.team }
           description={ project.description }
-          togglePopUp={ () => this.toggleProject(project.uniqueID) }
+          togglePopUp={ () => this.toggleProject(project.id) }
         />
       )
     })
@@ -70,7 +98,7 @@ export default class Leaderboard extends Component {
 
   renderPopUp = id => {
     const project = this.state.projects.filter(proj => {
-      return proj.uniqueID === id
+      return proj.id === id
     })[0];
     return (
       <ProjectPopUp
