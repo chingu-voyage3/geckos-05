@@ -12,6 +12,7 @@ export default class ProjectCard extends Component {
         <h3>{ this.props.name }</h3>
         <h4>{ this.props.team }</h4>
         <p>{ this.props.description }</p>
+        <p> {this.props.url }</p>
       </div>
     )
   }
