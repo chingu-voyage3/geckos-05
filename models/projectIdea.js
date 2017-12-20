@@ -7,7 +7,12 @@ const projectIdeaSchema = new Schema({
     comments: [{
         type: Schema.Types.ObjectId,
         ref: "comment"
-    }]
+    }],
+    upvotes: {
+        type: Number,
+        default: 0,
+        required: true
+    }
 });
 
 const projectIdea = mongoose.model("projectIdea", projectIdeaSchema);
