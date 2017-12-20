@@ -1,0 +1,8 @@
+.project-pop-up {
+  position: absolute;
+  left: 2%; top: 2%;
+  border-radius: 1px;
+  border: 1px solid grey;
+  padding: 1rem 2rem;
+  background-color: #e3e3e3f3;
+}
