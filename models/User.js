@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const projectIdea = require("./projectIdea");
+const project = require("./project");
 
 const userSchema = new Schema({
     name: {
@@ -17,17 +17,17 @@ const userSchema = new Schema({
         type: String,
         required: [true, "password is required"]
     },
-    projectIdea: [{
-        types: Schema.Types.ObjectId,
-        ref: 'projectIdea'
+    projects: [{
+        type: Schema.Types.ObjectId,
+        ref: "project"
     }]
 });
 
 userSchema.virtual("numOfProjects").get(function () {
-    return this.projectIdea.length;
+    return this.projects.length;
 });
 
 //represetsnts entire collection of data
-const User = mongoose.model('user', userSchema);
+const user = mongoose.model("user", userSchema);
 
-module.exports = User;
+module.exports = user;
