@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Leaderboard from './leaderboard';
+import Projects from './projects';
 import './style/app.css';
 
-export default class App extends Component {
+export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <Leaderboard/>
+        <Projects/>
       </div>
     );
   }

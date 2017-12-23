@@ -108,9 +108,15 @@ export default class Leaderboard extends Component {
     )
   }
 
+// I'm picturing this shows 6 projects per page, like the design
+// one way we could do that is to have another function, renderPage
+// that takes a `page` argument and the returned Array from renderProjects
+// and returns only the segment of the Array appropriate to the page number
+// but of course if you have another idea then go with it
   render() {
     return (
-      <div className="leaderboard">
+      <div className="projects-list">
+        <h1>Chingu Project Showcase</h1>
         { this.state.noData ?
           <p style={ {background: "#f66", padding: "1rem"} }>Sorry, no project data found</p> :
           this.renderProjects(this.state.projects) }
