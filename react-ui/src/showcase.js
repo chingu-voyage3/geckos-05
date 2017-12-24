@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import ProjectCard from './project_card';
-import ProjectPopUp from './project_pop_up';
+import Page from './page';
+import PageNav from './page_nav';
 
 export default class Showcase extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pages: [],
+      currentPage: 0
     }
   }
 
-  // render functions
-  renderProjectPage = page => {
+  selectPage = page => {
+    this.setState({ currentPage: page });
   }
 
-/*
-
-*/
   render() {
     return (
       <div>
-        { this.renderProjectPage(this.props.projectPage) }
+        <Page projects={ this.props.pages[this.state.currentPage] } />
+        <PageNav
+          current={ this.state.currentPage }
+          numPages={ this.props.pages.length }
+          gotoPage={ this.selectPage }
+        />
       </div>
     )
   }
