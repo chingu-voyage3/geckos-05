@@ -17,8 +17,8 @@ export default class ChinguProjectShowcase extends Component {
 
   // api calls
   // https://github.com/pksunkara/octonode
-  fetchGithub = () => {
-    fetch("https://api.github.com/orgs/chingu-voyage3/repos")
+  fetchGithub = (org) => {
+    fetch(`https://api.github.com/orgs/${org}/repos`)
       .then(res => {
         if (!res.ok) {
           console.error("problem!", res.status);
@@ -79,7 +79,7 @@ export default class ChinguProjectShowcase extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    this.fetchGithub();
+    this.fetchGithub("chingu-coders");
   }
 
   render() {
