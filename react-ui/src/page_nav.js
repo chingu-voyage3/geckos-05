@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 
 export default class PageNav extends Component {
   renderNavList = currentPage => {
-    const navList = Array(this.props.numPages);
-    return navList.map((page, i) => {
-      return <li key={ Date.now() + i }>{ i + 1 }</li>
-    })
+    const navList = [];
+    for (let i = 0; i < this.props.numPages; i++) {
+      navList.push(
+        <li
+          key={ Date.now() + i }
+          onClick={ () => this.props.gotoPage(i) }
+        >{ i + 1 }</li>
+      )
+    }
+    return navList;
   }
 
   render() {
