@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './style/index.css';
+import ChinguProjectShowcase from './ChinguProjectShowcase';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-  <App
+  <ChinguProjectShowcase
     apiURL={ "http://localhost:3001/api" }
   />, document.getElementById('root')
 );
