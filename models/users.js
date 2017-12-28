@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const Project = require("./project");
 
 const UsersSchema = new Schema({
+    _id: Schema.Types.ObjectId,
     name: {
         type: String,
         validate: {
