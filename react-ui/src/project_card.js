@@ -8,7 +8,13 @@ export default class ProjectCard extends Component {
 
   render() {
     return (
-      <div className="project-card" onClick={ this.props.togglePopUp }>
+      <div
+        className="project-card"
+        onClick={ e => {
+          e.preventDefault();
+          this.props.toggleShowProject(this.props._id);
+        }}
+      >
         <h3>{ this.props.name }</h3>
         <p>{ this.props.description }</p>
       </div>

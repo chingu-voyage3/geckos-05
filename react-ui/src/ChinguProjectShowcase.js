@@ -48,12 +48,13 @@ export default class ChinguProjectShowcase extends Component {
   switchDisplay = display => {
   }
 
-  toggleShowProject = projectID => {
+  toggleShowProject = projectId => {
+    console.log(projectId);
     this.setState(prev => {
-      if (prev.openProject === projectID) {
+      if (prev.openProject === projectId) {
         return { openProject: null }
       }
-      else return { openProject: projectID }
+      else return { openProject: projectId }
     })
   }
 
@@ -69,11 +70,23 @@ export default class ChinguProjectShowcase extends Component {
     }, [])
   }
 
+  renderProjectPage = projectId => {
+    const project = this.state.projects.filter(project => {
+      return project._id === projectId
+    })[0];
+    return (
+      <p>Hi I'm a Project!!!</p>
+    )
+  }
+
   whichDisplay = display => {
     return (
       display === "user" ?
         <UserAccount user={ this.state.user } /> :
-        <Showcase pages={ this.pageProjects(this.state.projects) } />
+        <Showcase
+          pages={ this.pageProjects(this.state.projects) }
+          toggleShowProject={ this.toggleShowProject }
+        />
     )
   }
 
@@ -101,7 +114,9 @@ export default class ChinguProjectShowcase extends Component {
         </form>
         { this.state.fetching ?
             <p>Fetching project data...</p> :
-            this.whichDisplay(this.state.show)
+            this.state.openProject ?
+              this.renderProjectPage(this.state.openProject) :
+              this.whichDisplay(this.state.show)
         }
       </div>
     );

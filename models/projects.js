@@ -5,13 +5,13 @@ const Users = require("./user");
 const Voyages = require("./voyage");
 
 const ProjectsSchema = new Schema({
-    uniqueId: Schema.Types.ObjectId,
-    title: String,
+    _id: Schema.Types.ObjectId,
+    name: String,
     content: String,
     repo: String,
     demo: String,
     voyage: {
-      type: Schema.Types.Number,
+      num: Schema.Types.Number,
       ref: "Voyage"
     },
     team: {

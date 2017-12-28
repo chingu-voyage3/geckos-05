@@ -7,8 +7,10 @@ export default class Page extends Component {
       return (
         <ProjectCard
           key={ project.id }
+          _id={ project.id }
           name={ project.name }
           description={ project.description }
+          toggleShowProject={ this.props.toggleShowProject }
         />
       )
     })

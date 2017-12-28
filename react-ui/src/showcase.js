@@ -17,7 +17,10 @@ export default class Showcase extends Component {
   render() {
     return (
       <div>
-        <Page projects={ this.props.pages[this.state.currentPage] } />
+        <Page
+          projects={ this.props.pages[this.state.currentPage] }
+          toggleShowProject={ this.props.toggleShowProject }
+        />
         <PageNav
           current={ this.state.currentPage }
           numPages={ this.props.pages.length }

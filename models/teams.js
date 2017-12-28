@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const TeamsSchema = new Schema({
-  uniqueId: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   name: String,
   voyage: {
     type: Schema.Types.ObjectId,
