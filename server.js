@@ -41,23 +41,6 @@ router.route("/projects")
     res.set("Content-Type", "application/json");
     res.send({ "projects": DATA });
   })
-  .post((req, res) => {
-    if (!req.body._id) {
-      const project = new Project();
-      project.name = req.body.name;
-      project.description = req.body.description;
-      project.repo = req.body.url;
-      project.save(err => {
-        if (err) { console.error(err) }
-        else console.log(`created new project record: ${project}`)
-      });
-    }
-    else {
-    // update an existing project
-    // this process may be much the same as above
-    // except a user can update more values than I can get from the gh api
-    }
-  })
 
 // use above router config for calls to /api
 app.use("/api", router);
