@@ -6,10 +6,13 @@ const Voyages = require("./voyage");
 
 const ProjectsSchema = new Schema({
     _id: Schema.Types.ObjectId,
+    ghId: String,
     name: String,
-    content: String,
+    description: String,
     repo: String,
     demo: String,
+    tech_stack: [ String ],
+    tags: [ String ],
     voyage: {
       num: Schema.Types.Number,
       ref: "Voyage"

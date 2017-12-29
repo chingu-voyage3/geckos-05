@@ -4,6 +4,9 @@
 const express = require("express");
 const path = require("path");
 
+// models
+const Project = require("./models/projects.js");
+
 // load example data hardcoded in local file
 const DATA = require("./react-ui/src/data.js");
 
@@ -40,6 +43,21 @@ router.route("/projects")
   .get((req, res) => {
     res.set("Content-Type", "application/json");
     res.send({ "projects": DATA });
+  })
+  .post((req, res) => {
+    if (!req.body._id) {
+      // create a new object
+      const project = new Project();
+      console.log(project, req.body);
+      // project = { ...project, ...req.body };
+      // project.save(err => {
+      //   if (err) { console.error(err) }
+      //   else console.log(`created project record: ${project}`)
+      // })
+    } else {
+      // project record exists, this is an edit
+
+    }
   })
 
 // use above router config for calls to /api

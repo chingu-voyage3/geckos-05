@@ -1,27 +1,43 @@
 // dependencies
 const request = require("request");
 const mongoose = require("mongoose");
-
+require("dotenv").load();
 
 // models
 const Project = require("./models/projects.js");
-const User = require("./models/users.js");
 
 // constants
 const api_url = "http://api.github.com";
 const args = process.argv;
-const voyage = process.argv[2] || "chingu-coders";
+const voyage = args[2] || "chingu-coders";
+const options = args[3] && `?${args[3]}`;
 
-function getProjects() {
-  request.get(`${api_url}/orgs/${voyage}/repos`)
-    .then(res => {
-      if (res.status !== ok) {
-        throw Error(`${res.status}: ${res.message}`);
-      } else {
-        res.json()
-      }
-    })
-    .then(json => {
-      // map object data to new data record
-    })
-}
+// wire up database
+/*
+const DB_URI = process.env.MONGODB_URI;
+mongoose.connect(DB_URI, { useMongoClient: true });
+const db = mongoose.connection;
+db.on("error", console.error
+  .bind(console, "MongoDB connection error"));
+*/
+
+let project = {};
+
+request.get(`${api_url}/orgs/${voyage}/repos${options}`, (err, res, body) => {
+  console.log(res);
+});
+
+/*request.get(`${api_url}/orgs/${voyage}/repos${options}`)
+  .pipe(data => {
+    project = {
+      ghId: data.id,
+      name: data.name,
+      description: data.description,
+      repo: data.url,
+      demo: data.deployments_url,
+      contributors: data.contributors_url,
+      tech_stack: data.languages_url
+    };
+    console.log(project);
+  })*/
+  // .pipe(request.get(`${api_url}/orgs/${voyage}/repos`));
