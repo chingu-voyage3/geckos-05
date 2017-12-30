@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserAccount from './user_account';
 import Showcase from './showcase';
 import './style/app.css';
+import ProjectPopUp from './project.js'
 
 export default class ChinguProjectShowcase extends Component {
   constructor(props) {
@@ -48,12 +49,13 @@ export default class ChinguProjectShowcase extends Component {
   switchDisplay = display => {
   }
 
-  toggleShowProject = projectID => {
+  toggleShowProject = projectId => {
+    console.log(projectId);
     this.setState(prev => {
-      if (prev.openProject === projectID) {
+      if (prev.openProject === projectId) {
         return { openProject: null }
       }
-      else return { openProject: projectID }
+      else return { openProject: projectId }
     })
   }
 
@@ -69,11 +71,34 @@ export default class ChinguProjectShowcase extends Component {
     }, [])
   }
 
+  renderProjectPage = projectId => {
+    const project = this.state.projects.filter(project => {
+      return project.id === projectId
+    });
+   
+    console.log(project);
+
+    return (
+      <div>
+        <ProjectPopUp 
+          picture="https://www.howtogeek.com/wp-content/uploads/2010/03/image5.png" //placeholder image
+          name={ project[0].name }
+          description={ project[0].description}
+          url={ project[0].html_url}
+          contributors={project[0].contributors_url}
+         />
+      </div>
+    )
+  } 
+
   whichDisplay = display => {
     return (
       display === "user" ?
         <UserAccount user={ this.state.user } /> :
-        <Showcase pages={ this.pageProjects(this.state.projects) } />
+        <Showcase
+          pages={ this.pageProjects(this.state.projects) }
+          toggleShowProject={ this.toggleShowProject }
+        />
     )
   }
 
@@ -85,6 +110,7 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
+        <button onClick={ this.login}>User</button>
         <button onClick={ this.logout }>Logout</button>
         <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
         <button onClick={ () => this.switchDisplay("user") }>
@@ -101,7 +127,9 @@ export default class ChinguProjectShowcase extends Component {
         </form>
         { this.state.fetching ?
             <p>Fetching project data...</p> :
-            this.whichDisplay(this.state.show)
+            this.state.openProject ?
+              this.renderProjectPage(this.state.openProject) :
+              this.whichDisplay(this.state.show)
         }
       </div>
     );
