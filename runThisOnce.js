@@ -7,10 +7,19 @@ require("dotenv").load();
 const Project = require("./models/projects.js");
 
 // constants
-const api_url = "http://api.github.com";
-const args = process.argv;
-const voyage = args[2] || "chingu-coders";
-const options = args[3] && `?${args[3]}`;
+const API_URL = "https://api.github.com";
+const ARGS = process.argv.slice(2);
+const USER_AGENT = "ckingbailey";
+// it annoys me that I have to filter repeatedly here
+// let's try to figure out another succinct way to do this assignment
+const VOYAGE_NAME = ARGS.filter(arg => {
+    return !arg.includes("=")
+  }).join("") || "chingu-coders";
+const OPTIONS = ARGS.filter(arg => {
+    return arg.includes("=")
+  }).join("") && "?" + ARGS.filter(arg => {
+    return arg.includes("=");
+  }).join("&");
 
 // wire up database
 /*
@@ -23,8 +32,20 @@ db.on("error", console.error
 
 let project = {};
 
-request.get(`${api_url}/orgs/${voyage}/repos${options}`, (err, res, body) => {
-  console.log(res);
+request.get(
+  { url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
+    headers: {
+      'User-Agent': "ckingbailey"
+    }
+  }, (err, res, body) => {
+  const json = JSON.parse(body);
+  project = {
+    name: json.name,
+    description: json.description,
+    repo: json.html_url,
+  };
+  console.log(`${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`);
+  console.log(json);
 });
 
 /*request.get(`${api_url}/orgs/${voyage}/repos${options}`)
