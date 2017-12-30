@@ -11,6 +11,7 @@ export default class Page extends Component {
           name={ project.name }
           description={ project.description }
           toggleShowProject={ this.props.toggleShowProject }
+          url= { project.html_url }
         />
       )
     })

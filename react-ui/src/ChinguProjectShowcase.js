@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserAccount from './user_account';
 import Showcase from './showcase';
 import './style/app.css';
+import ProjectPopUp from './project.js'
 
 export default class ChinguProjectShowcase extends Component {
   constructor(props) {
@@ -72,10 +73,21 @@ export default class ChinguProjectShowcase extends Component {
 
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
-      return project._id === projectId
-    })[0];
+      return project.id === projectId
+    });
+
+    console.log(project);
+
     return (
-      <p>Hi I'm a Project!!!</p>
+      <div>
+        <ProjectPopUp
+          picture="https://www.howtogeek.com/wp-content/uploads/2010/03/image5.png" //placeholder image
+          name={ project[0].name }
+          description={ project[0].description}
+          url={ project[0].html_url}
+          contributors={project[0].contributors_url}
+         />
+      </div>
     )
   }
 
@@ -98,6 +110,7 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
+        <button onClick={ this.login}>User</button>
         <button onClick={ this.logout }>Logout</button>
         <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
         <button onClick={ () => this.switchDisplay("user") }>

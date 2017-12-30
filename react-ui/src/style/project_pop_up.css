@@ -1,8 +1,14 @@
 .project-pop-up {
   position: absolute;
-  left: 2%; top: 2%;
+  left: 10%; top: 10%;
   border-radius: 1px;
   border: 1px solid grey;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem; 
+  margin: 0 auto;
   background-color: #e3e3e3f3;
+  width: 80%
+}
+
+.project-pop-up > * {
+  margin: 1rem;
 }
