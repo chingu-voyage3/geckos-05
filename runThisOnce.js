@@ -37,45 +37,45 @@ const headers = {
   "username": "ckingbailey"
 }
 
-requestContribs(
-  { url: "https://api.github.com/repos/chingu-coders/paypal-otters/contributors",
-    headers },
-   projects[0],
-   obj => {
-     console.log(obj);
-   });
+// requestContribs(
+//   { url: "https://api.github.com/repos/chingu-coders/paypal-otters/contributors",
+//     headers },
+//    {},
+//    obj => {
+//      console.log(obj);
+//    });
 
-// request
-//   .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
-//         headers }, (err, res, body) => {
-//       if (err) {
-//         console.error("There was problem with your request:\n",
-//           `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
-//       } else {
-//         console.log(res.headers["content-type"]);
-//         const json = JSON.parse(body);
-//         json.forEach((data, i) => {
-//           const project = projects[i] = new Project();
-//           // project["_id"] = uniqid();
-//           project.name = data.name;
-//           project.description = data.description;
-//           project.repo = data.html_url;
-//           requestStack(
-//             { url: data.languages_url, headers },
-//             project,
-//             obj => {
-//               requestContribs(
-//                 { url: data.contributors_url, headers },
-//                 project,
-//                 obj => {
-//                   console.log(obj);
-//                 }
-//               );
-//             }
-//           );
-//         });
-//       }
-//   });
+request
+  .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
+        headers }, (err, res, body) => {
+      if (err) {
+        console.error("There was problem with your request:\n",
+          `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
+      } else {
+        console.log(res.headers["content-type"]);
+        const json = JSON.parse(body);
+        json.forEach((data, i) => {
+          const project = projects[i] = new Project();
+          // project["_id"] = uniqid();
+          project.name = data.name;
+          project.description = data.description;
+          project.repo = data.html_url;
+          requestStack(
+            { url: data.languages_url, headers },
+            project,
+            obj => {
+              requestContribs(
+                { url: data.contributors_url, headers },
+                obj,
+                obj2 => {
+                  console.log(obj2);
+                }
+              );
+            }
+          );
+        });
+      }
+  });
 
 function requestStack(url, obj, fn) {
   request.get(url, (err, res, body) => {
@@ -95,12 +95,10 @@ function requestContribs(url, obj, fn) {
       console.error('There was a problem with the "contribs" request\n',
         `${url}\n`, err);
     } else {
-      fn({
-        contributors: JSON.parse(body).map(contrib => {
-          return contrib.login;
-        }),
-        ...obj
+      obj.contributors = JSON.parse(body).map(contrib => {
+        return contrib.login;
       });
+      fn(obj);
     }
   });
 }
