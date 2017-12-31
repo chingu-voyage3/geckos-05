@@ -1,6 +1,7 @@
 .project-pop-up {
-  position: absolute;
-  left: 10%; top: 10%;
+  /* position: absolute; *
+  /* left: 10%; top: 10%; */
+  position: relative;
   border-radius: 1px;
   border: 1px solid grey;
   padding: 1rem 2rem; 
