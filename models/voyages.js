@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Projects = require("./project");
-const Teams = require("./team");
 
 const VoyagesSchema = new Schema({
   number: Number,

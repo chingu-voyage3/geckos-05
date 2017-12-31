@@ -1,9 +1,10 @@
 // dependencies
-const request = require("request");
 const mongoose = require("mongoose");
+const request = require("request");
+const uniqid = require("uniqid");
 require("dotenv").load();
 
-// models
+// database models
 const Project = require("./models/projects.js");
 
 // constants
@@ -30,23 +31,58 @@ db.on("error", console.error
   .bind(console, "MongoDB connection error"));
 */
 
-let project = {};
+const projects = [];
 
-request.get(
-  { url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
-    headers: {
-      'User-Agent': "ckingbailey"
+request
+  .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
+        headers: { 'User-Agent': "ckingbailey" }
+    }, (err, res, body) => {
+      if (err) {
+        console.error("There was problem with your request:\n",
+          `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
+      } else {
+        console.log(res.headers["content-type"]);
+        const json = JSON.parse(body);
+        json.forEach((obj, i) => {
+          const project = projects[i] = new Project();
+          // project["_id"] = uniqid();
+          project.name = obj.name;
+          project.description = obj.description;
+          project.repo = obj.html_url;
+        })
+        console.log(projects);
+      }
+    });
+
+function requestStack(url, collection, fn) {
+  request.get(url, (err, res, body) => {
+    if (err) {
+      console.error('There was a problem with the "stack" request\n',
+        `${url}\n`, err);
+    } else {
+      fn(collection.map(obj => {
+        obj.tech_stack = Object.keys(JSON.parse(body));
+        return obj;
+      }));
     }
-  }, (err, res, body) => {
-  const json = JSON.parse(body);
-  project = {
-    name: json.name,
-    description: json.description,
-    repo: json.html_url,
-  };
-  console.log(`${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`);
-  console.log(json);
-});
+  });
+}
+
+function requestContribs(url, collection, fn) {
+  request.get(url, (err, res, body) => {
+    if (err) {
+      console.error('There was a problem with the "contribs" request\n',
+        `${url}\n`, err);
+    } else {
+      fn(collection.map(obj => {
+        obj.contributors = JSON.parse(body).map(contrib => {
+          return contrib.login;
+        });
+        return obj;
+      }));
+    }
+  });
+}
 
 /*request.get(`${api_url}/orgs/${voyage}/repos${options}`)
   .pipe(data => {

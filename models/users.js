@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Project = require("./project");
 
 const UsersSchema = new Schema({
     _id: Schema.Types.ObjectId,
