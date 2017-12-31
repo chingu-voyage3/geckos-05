@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import UserAccount from './user_account';
 import Showcase from './showcase';
 import './style/app.css';
-import ProjectPopUp from './project.js'
+import ProjectPopUp from './project.js';
 
 export default class ChinguProjectShowcase extends Component {
   constructor(props) {
@@ -59,6 +59,20 @@ export default class ChinguProjectShowcase extends Component {
     })
   }
 
+  // temporary function to show user component
+  toggleShowUser = () => {
+    console.log("user clicked");
+    return (
+      <div>
+        <UserAccount 
+          user="temp user"
+          name="temp name"
+          url="temp url"
+        />
+      </div>
+    )
+  }
+
   // special render methods and data processing for rendering
   pageProjects = projects => {
     let page = 0;
@@ -86,6 +100,9 @@ export default class ChinguProjectShowcase extends Component {
           description={ project[0].description}
           url={ project[0].html_url}
           contributors={project[0].contributors_url}
+          memberImg={project[0].owner.avatar_url}
+          owner= {project[0].owner.login}
+          
          />
       </div>
     )
@@ -110,7 +127,7 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.login}>User</button>
+        <button onClick={ this.toggleShowUser} >User</button>
         <button onClick={ this.logout }>Logout</button>
         <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
         <button onClick={ () => this.switchDisplay("user") }>

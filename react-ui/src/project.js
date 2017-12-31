@@ -7,6 +7,7 @@ export default class ProjectPopUp extends Component {
     this.state = {}
   }
 
+
   render() {
     // other data: teams, votes, links, date added
     return (
@@ -19,6 +20,10 @@ export default class ProjectPopUp extends Component {
           <section className="resource-links">{ this.props.links }</section>
           <a href={this.props.url}>Project Link </a>
           <p> Team Members in Group: { this.props.contributors } </p>
+        </div>
+        <div>
+          <img src={this.props.memberImg}  alt="member" className="memberImage"/>
+          <p>{ this.props.owner }</p>
         </div>
         <a href="/" > <button> Back </button></a>
       </div>
