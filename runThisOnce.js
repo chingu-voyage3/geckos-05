@@ -32,54 +32,75 @@ db.on("error", console.error
 */
 
 const projects = [];
+const headers = {
+  "User-Agent": "ckingbailey",
+  "username": "ckingbailey"
+}
 
-request
-  .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
-        headers: { 'User-Agent': "ckingbailey" }
-    }, (err, res, body) => {
-      if (err) {
-        console.error("There was problem with your request:\n",
-          `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
-      } else {
-        console.log(res.headers["content-type"]);
-        const json = JSON.parse(body);
-        json.forEach((obj, i) => {
-          const project = projects[i] = new Project();
-          // project["_id"] = uniqid();
-          project.name = obj.name;
-          project.description = obj.description;
-          project.repo = obj.html_url;
-        })
-        console.log(projects);
-      }
-    });
+requestContribs(
+  { url: "https://api.github.com/repos/chingu-coders/paypal-otters/contributors",
+    headers },
+   projects[0],
+   obj => {
+     console.log(obj);
+   });
 
-function requestStack(url, collection, fn) {
+// request
+//   .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`,
+//         headers }, (err, res, body) => {
+//       if (err) {
+//         console.error("There was problem with your request:\n",
+//           `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
+//       } else {
+//         console.log(res.headers["content-type"]);
+//         const json = JSON.parse(body);
+//         json.forEach((data, i) => {
+//           const project = projects[i] = new Project();
+//           // project["_id"] = uniqid();
+//           project.name = data.name;
+//           project.description = data.description;
+//           project.repo = data.html_url;
+//           requestStack(
+//             { url: data.languages_url, headers },
+//             project,
+//             obj => {
+//               requestContribs(
+//                 { url: data.contributors_url, headers },
+//                 project,
+//                 obj => {
+//                   console.log(obj);
+//                 }
+//               );
+//             }
+//           );
+//         });
+//       }
+//   });
+
+function requestStack(url, obj, fn) {
   request.get(url, (err, res, body) => {
     if (err) {
       console.error('There was a problem with the "stack" request\n',
         `${url}\n`, err);
     } else {
-      fn(collection.map(obj => {
-        obj.tech_stack = Object.keys(JSON.parse(body));
-        return obj;
-      }));
+      obj.tech_stack = Object.keys(JSON.parse(body));
+      fn(obj);
     }
   });
 }
 
-function requestContribs(url, collection, fn) {
+function requestContribs(url, obj, fn) {
   request.get(url, (err, res, body) => {
     if (err) {
       console.error('There was a problem with the "contribs" request\n',
         `${url}\n`, err);
     } else {
-      fn(collection.map(obj => {
-        obj.contributors = JSON.parse(body).map(contrib => {
+      fn({
+        contributors: JSON.parse(body).map(contrib => {
           return contrib.login;
-        });
-        return obj;
-      }));
+        }),
+        ...obj
+      });
     }
   });
 }
