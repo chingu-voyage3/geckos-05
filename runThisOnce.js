@@ -36,6 +36,8 @@ const db = mongoose.connection;
 db.on("error", console.error
   .bind(console, "MongoDB connection error"));
 
+let firstTime = true;
+
 getNewProjects(
   { url: REQ_URL, headers },
   (data, project) => {
@@ -51,7 +53,9 @@ getNewProjects(
               if (err) {
                 console.error("Error in saving db record: ", err);
               }
-              else console.log("Project successfully saved: ", newRecord);
+              else {
+                console.log("Project successfully saved: ", newRecord);
+              }
             });
           }
         )
@@ -72,7 +76,7 @@ function getNewProjects(req, fn) {
           if (err) {
             console.error("Error in search for existing project record", err);
           } else if (result) {
-            console.log("Existing project record: ", result);
+            console.log("Existing project record: ", result.ghId);
           } else {
             const project = new Project();
             project["_id"] = uniqid();
@@ -86,8 +90,9 @@ function getNewProjects(req, fn) {
         });
       });
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
-        var links = parseLinkHeader(res.headers.link)
-        // var nextPage = link.match(/[^_]page=(\d)/)[1];
+        var links = parseLinkHeader(res.headers.link);
+        if (firstTime) console.log(links);
+        firstTime = false;
         // if (nextPage > 1) {
         getNewProjects(
           { url: links.next, headers },
@@ -135,28 +140,38 @@ function requestStack(req, obj, fn) {
 function requestContribs(req, obj, fn) {
   request.get(req, (err, res, body) => {
     if (err) {
-      console.error('There was a problem with the "contribs" request\n',
+      console.error('There was a problem in the "contribs" request\n',
         req, err);
     } else {
-      try {
-        var json = JSON.parse(body);
-      } catch (e) {
-        const report = {
-          req_url: req.url,
-          body: body,
-          res_headers: res.headers
+      if (res.status === 200 && res.headers["content-type"] = "application/json") {
+        // try {
+          var json = JSON.parse(body);
+        // } catch (e) {
+        //   const report = {
+        //     res_headers: res.headers
+        //     req_url: req.url,
+        //     body: body,
+        //     error: e
+        //   }
+        //   console.error(report);
+        // }
+        // finally {
+          // if (json) {
+            obj.contributors = JSON.parse(body).map(contrib => {
+              return contrib.login;
+            });
+            fn(obj);
+          // } else console.log("Sorry, Buck-o, there was an error in parse JSON.",
+          //         "No valid json.", "We had to skip this one.");
         }
-        console.error(e, report);
-      }
-      finally {
-        if (json) {
-          obj.contributors = JSON.parse(body).map(contrib => {
-            return contrib.login;
-          });
-          fn(obj);
-        } else console.log("Sorry, Buck-o, there was an error in parse JSON.",
-                "We had to skip this one.");
-      }
+      } else if (res.status === 204) {
+        console.error("There's nothin here for ye, mate --->",
+          req.url,
+          "This repo may be empty")
+      } else if (res.status === 404 || res.status === 403 || res.status === 401) {
+        console.error("Github has a problem with us:", res.status, res.message)
+      } else console.log("didn't getcher content? somethin must be wrong with the response",
+          req.url, res.status, res.message)
     }
   });
 }
