@@ -86,37 +86,34 @@ function getNewProjects(req, fn) {
         });
       });
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
-        var link = res.headers.link
-          .slice(res.headers.link.indexOf("<") + 1, res.headers.link.indexOf(">"));
-        // console.log("LINK: " + link);
-        var nextPage = link.match(/[^_]page=(\d)/)[1];
-        // this limiter is only for the sake of testing
-        if (nextPage < 3) {
-          getNewProjects(
-            { url: link, headers },
-            (data2, proj) => {
-              requestStack(
-                { url: data2.languages_url, headers },
-                proj,
-                proj => {
-                  requestContribs(
-                    { url: data2.contributors_url, headers },
-                    proj,
-                    proj => {
-                      proj.save((err, newRecord) => {
-                        if (err) {
-                          console.error("Error in saving db record: ", err);
-                        }
-                        else console.log("Project successfully saved: ", newRecord);
-                      });
-                    }
-                  )
-                }
-              )
-            }
-          );
-        }
-        else console.log("Page traversal complete. Thank you for your time.");
+        var links = parseLinkHeader(res.headers.link)
+        // var nextPage = link.match(/[^_]page=(\d)/)[1];
+        // if (nextPage > 1) {
+        getNewProjects(
+          { url: links.next, headers },
+          (data2, proj) => {
+            requestStack(
+              { url: data2.languages_url, headers },
+              proj,
+              proj => {
+                requestContribs(
+                  { url: data2.contributors_url, headers },
+                  proj,
+                  proj => {
+                    proj.save((err, newRecord) => {
+                      if (err) {
+                        console.error("Error in saving db record: ", err);
+                      }
+                      else console.log("Project successfully saved: ", newRecord);
+                    });
+                  }
+                )
+              }
+            )
+          }
+        );
+        // }
+        // else console.log("Page traversal complete. Thank you for your time.");
       }
       else console.log("That's it: just the one page");
     }
@@ -147,4 +144,24 @@ function requestContribs(req, obj, fn) {
       fn(obj);
     }
   });
+}
+
+function parseLinkHeader(header) {
+  if (header.length === 0) {
+    throw new Error('"link header" input must not be of zero length');
+  }
+  // split parts at commas
+  const parts = header.split(",");
+  const linksList = {};
+  // parse each part into a named link
+  parts.forEach(part => {
+    const section = part.split(";");
+    if (section.length !== 2) {
+      throw new Error('link header section could not be split on ";"');
+    }
+    const url = section[0].replace(/<(.*)>/, "$1").trim();
+    const name = section[1].replace(/rel="(.*)"/, "$1").trim();
+    linksList[name] = url;
+  });
+  return linksList;
 }
