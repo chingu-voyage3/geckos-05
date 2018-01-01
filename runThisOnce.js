@@ -91,10 +91,9 @@ function getNewProjects(req, fn) {
         // console.log("LINK: " + link);
         var nextPage = link.match(/[^_]page=(\d)/)[1];
         // this limiter is only for the sake of testing
-        if (nextPage < 0) {
+        if (nextPage < 3) {
           getNewProjects(
             { url: link, headers },
-            collection,
             (data2, proj) => {
               requestStack(
                 { url: data2.languages_url, headers },
@@ -104,7 +103,12 @@ function getNewProjects(req, fn) {
                     { url: data2.contributors_url, headers },
                     proj,
                     proj => {
-                      console.log("New Project: ", proj)
+                      proj.save((err, newRecord) => {
+                        if (err) {
+                          console.error("Error in saving db record: ", err);
+                        }
+                        else console.log("Project successfully saved: ", newRecord);
+                      });
                     }
                   )
                 }
