@@ -28,78 +28,38 @@ const headers = {
 };
 
 // wire up database
-/*
 const DB_URI = process.env.MONGODB_URI;
-mongoose.connect(DB_URI, { useMongoClient: true });
+// MERN tutorial uses { useMongoClient: true } here but mongoose says unsupported
+mongoose.connect(DB_URI);
 const db = mongoose.connection;
+// I got this 'bind' from MERN tutorial. what does it do?
 db.on("error", console.error
   .bind(console, "MongoDB connection error"));
-*/
-
-const projects = [];
-
-// request
-//   .get({url: `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`, headers },
-//     (err, res, body) => {
-//       if (err) {
-//         console.error("There was problem with your request:\n",
-//           `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}\n`, err);
-//       } else {
-//         const json = JSON.parse(body);
-//         json.forEach((data, i) => {
-//           const project = projects[i] = new Project();
-//           project["_id"] = uniqid();
-//           project.name = data.name;
-//           project.description = data.description;
-//           project.repo = data.html_url;
-//           project.demo = data.homepage;
-//           requestStack(
-//             { url: data.languages_url, headers },
-//             project,
-//             obj => {
-//               requestContribs(
-//                 { url: data.contributors_url, headers },
-//                 obj,
-//                 obj2 => {
-//                   // console.log({
-//                   //   'content-type': res.headers['content-type'],
-//                   //   status: res.headers.status,
-//                   //   'ratelimit': res.headers['x-ratelimit-limit'],
-//                   //   'ratelimit-remaining': res.headers['x-ratelimit-remaining']
-//                   // });
-//                   console.log(obj2);
-//                 }
-//               );
-//             }
-//           );
-//         });
-//         if (res.headers.link && res.headers.link.includes('rel="next"')) {
-//           console.log(res.headers.link);
-//         }
-//       }
-//     }
-//   );
 
 getNewProjects(
   { url: REQ_URL, headers },
-  projects,
-  (data, proj) => {
+  (data, project) => {
     requestStack(
       { url: data.languages_url, headers },
-      proj,
-      proj => {
+      project,
+      project => {
         requestContribs(
           { url: data.contributors_url, headers },
-          proj,
-          proj => {
-            console.log("NEW PROJECT: " + proj);
+          project,
+          project => {
+            project.save((err, newRecord) => {
+              if (err) {
+                console.error("Error in saving db record: ", err);
+              }
+              else console.log("Project successfully saved: ", newRecord);
+            });
           }
         )
       }
     )
   })
 
-function getNewProjects(req, collection, fn) {
+function getNewProjects(req, fn) {
   request.get(req, (err, res, body) => {
     if (err) {
       console.error("There was a problem with the repos request:\n",
@@ -108,21 +68,30 @@ function getNewProjects(req, collection, fn) {
       // console.log("REQ obj___", {url: REQ_URL, headers});
       // console.log("res.headers___", res.headers);
       JSON.parse(body).forEach((data, i) => {
-        const project = collection[i] = new Project();
-        project["_id"] = uniqid();
-        project.ghId = data.id;
-        project.name = data.name;
-        project.description = data.description;
-        project.repo = data.html_url;
-        project.demo = data.homepage;
-        fn(data, project);
+        Project.findOne({ ghId: data.id }, function(err, result) {
+          if (err) {
+            console.error("Error in search for existing project record", err);
+          } else if (result) {
+            console.log("Existing project record: ", result);
+          } else {
+            const project = new Project();
+            project["_id"] = uniqid();
+            project.ghId = data.id;
+            project.name = data.name;
+            project.description = data.description;
+            project.repo = data.html_url;
+            project.demo = data.homepage;
+            fn(data, project);
+          }
+        });
       });
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
         var link = res.headers.link
           .slice(res.headers.link.indexOf("<") + 1, res.headers.link.indexOf(">"));
         // console.log("LINK: " + link);
         var nextPage = link.match(/[^_]page=(\d)/)[1];
-        if (nextPage < 6) {
+        // this limiter is only for the sake of testing
+        if (nextPage < 0) {
           getNewProjects(
             { url: link, headers },
             collection,
@@ -145,7 +114,7 @@ function getNewProjects(req, collection, fn) {
         }
         else console.log("Page traversal complete. Thank you for your time.");
       }
-      else console.log("PROJECTS___\n", collection);
+      else console.log("That's it: just the one page");
     }
   })
 }
