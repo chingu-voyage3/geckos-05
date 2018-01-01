@@ -138,10 +138,25 @@ function requestContribs(req, obj, fn) {
       console.error('There was a problem with the "contribs" request\n',
         req, err);
     } else {
-      obj.contributors = JSON.parse(body).map(contrib => {
-        return contrib.login;
-      });
-      fn(obj);
+      try {
+        var json = JSON.parse(body);
+      } catch (e) {
+        const report = {
+          req_url: req.url,
+          body: body,
+          res_headers: res.headers
+        }
+        console.error(e, report);
+      }
+      finally {
+        if (json) {
+          obj.contributors = JSON.parse(body).map(contrib => {
+            return contrib.login;
+          });
+          fn(obj);
+        } else console.log("Sorry, Buck-o, there was an error in parse JSON.",
+                "We had to skip this one.");
+      }
     }
   });
 }
