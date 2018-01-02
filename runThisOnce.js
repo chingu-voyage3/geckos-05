@@ -42,21 +42,22 @@ getNewProjects(
   { url: REQ_URL, headers },
   (data, project) => {
     requestStack(
-      { url: data.languages_url, headers },
+      data,
       project,
       project => {
         requestContribs(
-          { url: data.contributors_url, headers },
+          data,
           project,
           project => {
-            project.save((err, newRecord) => {
-              if (err) {
-                console.error("Error in saving db record: ", err);
-              }
-              else {
-                console.log("Project successfully saved: ", newRecord);
-              }
-            });
+            console.log("New Project:", project);
+            // project.save((err, newRecord) => {
+            //   if (err) {
+            //     console.error("Error in saving db record: ", err);
+            //   }
+            //   else {
+            //     console.log("Project successfully saved: ", newRecord);
+            //   }
+            // });
           }
         )
       }
@@ -69,8 +70,6 @@ function getNewProjects(req, fn) {
       console.error("There was a problem with the repos request:\n",
         req.url, err);
     } else {
-      // console.log("REQ obj___", {url: REQ_URL, headers});
-      // console.log("res.headers___", res.headers);
       JSON.parse(body).forEach((data, i) => {
         Project.findOne({ ghId: data.id }, function(err, result) {
           if (err) {
@@ -85,24 +84,23 @@ function getNewProjects(req, fn) {
             project.description = data.description;
             project.repo = data.html_url;
             project.demo = data.homepage;
+            data.reqHeaders = req.headers;
             fn(data, project);
           }
         });
       });
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
         var links = parseLinkHeader(res.headers.link);
-        if (firstTime) console.log(links);
-        firstTime = false;
-        // if (nextPage > 1) {
+        if (links.next < 1) {
         getNewProjects(
-          { url: links.next, headers },
+          { url: links.next, headers: req.headers },
           (data2, proj) => {
             requestStack(
-              { url: data2.languages_url, headers },
+              data2,
               proj,
               proj => {
                 requestContribs(
-                  { url: data2.contributors_url, headers },
+                  data2,
                   proj,
                   proj => {
                     proj.save((err, newRecord) => {
@@ -117,68 +115,151 @@ function getNewProjects(req, fn) {
             )
           }
         );
-        // }
-        // else console.log("Page traversal complete. Thank you for your time.");
+        }
+        else console.log("Page traversal complete. Thank you for your time.");
       }
       else console.log("That's it: just the one page");
     }
   })
 }
 
-function requestStack(req, obj, fn) {
-  request.get(req, (err, res, body) => {
+function requestStack(data, obj, fn) {
+  request.get({ url: data.languages_url, headers: data.reqHeaders },
+    (err, res, body) => {
     if (err) {
       console.error('There was a problem with the "stack" request\n',
-        req, err);
+        { url: data.languages_url, headers: data.reqHeaders }, err);
+    } else if (res.statusCode === 200) {
+      if (!Object.keys(JSON.parse(body)).length) {
+        // if empty languages then do another request to see if repo is empty
+        console.log("The languages object came back empty:",
+          "Checking for empty repo...", data.languages_url);
+        var itIsEmpty = isItEmpty(data);
+        if (itIsEmpty) {
+          console.error("Yup, we seem to have an empty repo",
+            `${data.html_url}: ${itIsEmpty}`);
+          return;
+        } else {
+          // if size & contents come back ok, proceed without languages prop
+          console.log("Languages is empty but repo seems to have contents.",
+            `${data.html_url}, size: ${data.size}`, "Proceeding as normal.");
+          obj.tech_stack = Object.keys(JSON.parse(body));
+          fn(obj);
+        }
+      } else {
+        // if response is okay and has content
+        // then add it to object and pass it along to next callback
+        obj.tech_stack = Object.keys(JSON.parse(body));
+        fn(obj);
+      }
     } else {
-      obj.tech_stack = Object.keys(JSON.parse(body));
-      fn(obj);
+      console.error("The response to languages request was not OK:",
+        res.statusCode + ": " + res.headers.statusMessage);
+      return;
     }
   });
 }
 
-function requestContribs(req, obj, fn) {
-  request.get(req, (err, res, body) => {
+function requestContribs(data, obj, fn) {
+  request.get({ url: data.contributors_url, headers: data.reqHeaders },
+    (err, res, body) => {
     if (err) {
       console.error('There was a problem in the "contribs" request\n',
-        req, err);
+        { url: data.contributors_url, headers: data.reqHeaders }, err);
     } else {
-      if (res.status === 200 && res.headers["content-type"] = "application/json") {
-        // try {
+      if (res.statusCode === 200) {
+        if (res.headers["content-type"].includes("application/json")) {
           var json = JSON.parse(body);
-        // } catch (e) {
-        //   const report = {
-        //     res_headers: res.headers
-        //     req_url: req.url,
-        //     body: body,
-        //     error: e
-        //   }
-        //   console.error(report);
-        // }
-        // finally {
-          // if (json) {
-            obj.contributors = JSON.parse(body).map(contrib => {
+          if (!json.length) {
+            // if empty contribs, do more requests to see if repo is empty
+            console.error("We seem to have an empty contributors array:",
+              "Checking for empty repo...", data.contributors_url);
+            var itIsEmpty = isItEmpty(data);
+            if (itIsEmpty) {
+              console.error("Yup, we seem to have an empty repo.",
+                `${data.html_url}: ${itIsEmpty}`);
+              return;
+            } else {
+            // if size and content exist but there are no contributors
+            // well, that just doesn't make sense
+            // stop here and log the results
+              console.log("There appears to be content but no contributors",
+                "That just doesn't make sense", data.html_url);
+              return;
+            }
+          } else {
+            obj.contributors = json.map(contrib => {
               return contrib.login;
             });
             fn(obj);
-          // } else console.log("Sorry, Buck-o, there was an error in parse JSON.",
-          //         "No valid json.", "We had to skip this one.");
+          }
+        } else {
+        // response is not json? we don't know what to do with that
+        // return and log results
+          console.log("The response came back in an unexpected format: ",
+            data.contributors_url, res.headers["content-type"])
         }
-      } else if (res.status === 204) {
-        console.error("There's nothin here for ye, mate --->",
-          req.url,
-          "This repo may be empty")
-      } else if (res.status === 404 || res.status === 403 || res.status === 401) {
-        console.error("Github has a problem with us:", res.status, res.message)
-      } else console.log("didn't getcher content? somethin must be wrong with the response",
-          req.url, res.status, res.message)
+      } else if (res.statusCode === 204) {
+        // if no contribs obj, do another request to see if repo is empty
+        console.log("There's nothin here for ye, mate --->",
+          data.contributors_url,
+          "This repo may be empty");
+        var itIsEmpty = isItEmpty(data);
+        if (itIsEmpty) {
+          console.error("Yup, we seem to have an empty repo",
+            data.html_url, itIsEmpty);
+          return;
+        } else {
+          console.log("Repo has data but no contributors.",
+            "That just doesn't make sense", data.html_url);
+        }
+      } else if (res.statusCode >= 400 && res.statusCode < 500) {
+        console.error("Github has a problem with us:",
+          `${res.statusCode}: ${res.statusMessage}, ${data.contributors_url}`);
+      } else console.log("didn't getcher content? maybe we goofed. look at the code, ckb!",
+          `${data.contributors_url}, ${res.statusCode}: ${res.statusMessage}`);
     }
   });
 }
 
+// if this function returns something, the repo is empty
+// stop processing data and return nothing from calling fcn
+function isItEmpty(data) {
+  // first, check how much data is in repo
+  if (!+data.size) {
+    return "Repo size is a big 000:";
+  } else {
+  // if data is in repo, check what repo contents are
+    request.get({ url: data.contents_url, headers: data.reqHeaders},
+      (err, res, body) => {
+      if (err) {
+        return "There was a problem with requesting repo contents " +
+          data.contents_url;
+      } else if (res.statusCode === 200) {
+        if (res.headers["content-type"] === "application/json") {
+          if (JSON.parse(body).message === "This repository is empty.") {
+            return "There's no project here: " + data.html_url;
+          } else if (!Object.keys(JSON.parse(body)).length) {
+            return "The response body is empty " + data.contents_url;
+          } else {
+          // if contents response is json and has length > 0, should be all good
+          // proceed as normal
+            return;
+          }
+        } else return `Response came back in unexpected format: ${data.contents_url} ${res.headers["content-type"]}`;
+      } else if (res.statusCode >= 400 && res.statusCode < 500) {
+        return `There was a problem with the response ${data.contents_url}, ${res.statusCode}: ${res.statusMessage}`;
+      } else return "The response to repo contents request was not OK: " +
+          `${res.statusCode}: ${res.statusMessage} ` +
+          `${res.headers["content-type"]} ${data.contents_url}`;
+    });
+  }
+}
+
 function parseLinkHeader(header) {
-  if (header.length === 0) {
-    throw new Error('"link header" input must not be of zero length');
+  if (!header || header.length === 0) {
+    console.error('"link header" input must not be of zero length');
+    return null;
   }
   // split parts at commas
   const parts = header.split(",");
