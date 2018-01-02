@@ -78,12 +78,16 @@ function getNewProjects(req, fn) {
             console.log("Existing project record: ", result.ghId);
           } else {
             const project = new Project();
+            const voyageNum = data.url.includes("chingu-voyage3") ?
+              3 : data.url.includes("chingu-coders" || "Voyage2" || "voyage2") ?
+                2 : 0;
             project["_id"] = uniqid();
             project.ghId = data.id;
             project.name = data.name;
             project.description = data.description;
             project.repo = data.html_url;
             project.demo = data.homepage;
+            project.voyage = voyageNum;
             data.reqHeaders = req.headers;
             fn(data, project);
           }
