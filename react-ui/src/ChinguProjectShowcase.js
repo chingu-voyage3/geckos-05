@@ -59,20 +59,6 @@ export default class ChinguProjectShowcase extends Component {
     })
   }
 
-  // temporary function to show user component
-  toggleShowUser = () => {
-    console.log("user clicked");
-    return (
-      <div>
-        <UserAccount 
-          user="temp user"
-          name="temp name"
-          url="temp url"
-        />
-      </div>
-    )
-  }
-
   // special render methods and data processing for rendering
   pageProjects = projects => {
     let page = 0;
@@ -94,15 +80,19 @@ export default class ChinguProjectShowcase extends Component {
 
     return (
       <div>
+      <UserAccount
+          user={project[0].owner.login}
+          img_url={project[0].owner.avatar_url}
+        />
         <ProjectPopUp
-          picture="https://www.howtogeek.com/wp-content/uploads/2010/03/image5.png" //placeholder image
+          picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
           name={ project[0].name }
           description={ project[0].description}
           url={ project[0].html_url}
           contributors={project[0].contributors_url}
           memberImg={project[0].owner.avatar_url}
           owner= {project[0].owner.login}
-          
+          homepage = { project[0].homepage }
          />
       </div>
     )
@@ -127,7 +117,6 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.toggleShowUser} >User</button>
         <button onClick={ this.logout }>Logout</button>
         <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
         <button onClick={ () => this.switchDisplay("user") }>
