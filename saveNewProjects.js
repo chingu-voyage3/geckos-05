@@ -49,15 +49,14 @@ getNewProjects(
           data,
           project,
           project => {
-            console.log("New Project:", project);
-            // project.save((err, newRecord) => {
-            //   if (err) {
-            //     console.error("Error in saving db record: ", err);
-            //   }
-            //   else {
-            //     console.log("Project successfully saved: ", newRecord);
-            //   }
-            // });
+            project.save((err, newRecord) => {
+              if (err) {
+                console.error("Error in saving db record: ", err);
+              }
+              else {
+                console.log("Project successfully saved: ", newRecord);
+              }
+            });
           }
         )
       }
