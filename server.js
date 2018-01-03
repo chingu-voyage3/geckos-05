@@ -41,8 +41,10 @@ router.get("/", (req, res) => {
 // CRUD methods for projects api
 router.route("/projects")
   .get((req, res) => {
-    res.set("Content-Type", "application/json");
-    res.send({ "projects": DATA });
+    Project.find({ "voyage": 2 }, projects => {
+      res.set("Content-Type", "application/json");
+      res.send({ projects });
+    });
   })
   .post((req, res) => {
     if (!req.body._id) {
