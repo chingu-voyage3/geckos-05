@@ -74,7 +74,18 @@ function getNewProjects(req, fn) {
           if (err) {
             console.error("Error in search for existing project record", err);
           } else if (result) {
-            console.log("Existing project record: ", result.ghId);
+            // if no `voyage` prop, update it by parsing url
+            if (!result.voyage) {
+              console.log("Project record is missing voyage", result);
+              const voyage = result.repo.includes("chingu-coders" || "Voyage2" || "voyage2") ?
+                2 : result.repo.includes("Voyage3") ?
+                  3 : 0;
+              result.update({ voyage }, (err, raw) => {
+                if (err) {
+                  console.error("Error in updating project", err, result);
+                } else console.log("project updated", raw);
+              });
+            } else console.log("Existing project record: ", result.ghId);
           } else {
             const project = new Project();
             const voyageNum = data.url.includes("chingu-voyage3") ?
@@ -94,7 +105,7 @@ function getNewProjects(req, fn) {
       });
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
         var links = parseLinkHeader(res.headers.link);
-        if (links.next < 1) {
+        // if (links.next < 1) {
         getNewProjects(
           { url: links.next, headers: req.headers },
           (data2, proj) => {
@@ -118,8 +129,8 @@ function getNewProjects(req, fn) {
             )
           }
         );
-        }
-        else console.log("Page traversal complete. Thank you for your time.");
+        // }
+        // else console.log("Page traversal complete. Thank you for your time.");
       }
       else console.log("That's it: just the one page");
     }
