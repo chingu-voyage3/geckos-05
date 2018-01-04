@@ -3,6 +3,7 @@ import UserAccount from './user_account';
 import Showcase from './showcase';
 import './style/app.css';
 import ProjectPopUp from './project.js';
+import SearchBar from './search_bar.js'
 
 export default class ChinguProjectShowcase extends Component {
   constructor(props) {
@@ -83,6 +84,7 @@ export default class ChinguProjectShowcase extends Component {
       <UserAccount
           user={project[0].owner.login}
           img_url={project[0].owner.avatar_url}
+          picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png"
         />
         <ProjectPopUp
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
@@ -122,15 +124,8 @@ export default class ChinguProjectShowcase extends Component {
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }
         </button>
-        <form id="filterForm" name="filterForm">
-          <input id="filterTextInput" name="filterTextInput" type="text" />
-          <select id="filterOptions" name="filterOptions">
-            <option>Voyage</option>
-            <option>Team</option>
-            <option>Stack</option>
-            <option>Category</option>
-          </select>
-        </form>
+        <SearchBar
+        />
         { this.state.fetching ?
             <p>Fetching project data...</p> :
             this.state.openProject ?
