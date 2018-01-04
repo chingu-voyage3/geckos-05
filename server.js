@@ -60,7 +60,7 @@ router.route("/projects")
       // project record exists, this is an edit
 
     }
-  })
+  });
 
 // use above router config for calls to /api
 app.use("/api", router);
