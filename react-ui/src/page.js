@@ -6,8 +6,8 @@ export default class Page extends Component {
     return projects.map(project => {
       return (
         <ProjectCard
-          key={ project.id }
-          _id={ project.id }
+          key={ project._id }
+          _id={ project._id }
           name={ project.name }
           description={ project.description }
           toggleShowProject={ this.props.toggleShowProject }
