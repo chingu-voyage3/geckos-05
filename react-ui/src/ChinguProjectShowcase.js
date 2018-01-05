@@ -113,8 +113,15 @@ export default class ChinguProjectShowcase extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    fetch("/api/projects")
-      .then()
+    fetch("/api/projects", { "Accept": "application/json" })
+
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        // console.log(data);
+        this.setState({ projects: data, fetching: false });
+      })
     // this.fetchGithub("chingu-coders");
   }
 
