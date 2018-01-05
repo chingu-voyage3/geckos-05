@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Teams = require("./team");
-const Users = require("./user");
-const Voyages = require("./voyage");
+const Voyage = require("./voyages.js");
 
 const ProjectsSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    _id: String,
+    ghId: String,
     name: String,
-    content: String,
+    description: String,
     repo: String,
     demo: String,
+    tech_stack: [ String ],
+    tags: [ String ],
     voyage: {
-      num: Schema.Types.Number,
+      type: Schema.Types.Number,
       ref: "Voyage"
     },
     team: {

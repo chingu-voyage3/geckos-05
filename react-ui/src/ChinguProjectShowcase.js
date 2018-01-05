@@ -74,7 +74,7 @@ export default class ChinguProjectShowcase extends Component {
 
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
-      return project.id === projectId
+      return project._id === projectId
     });
 
     console.log(project);
@@ -82,19 +82,19 @@ export default class ChinguProjectShowcase extends Component {
     return (
       <div>
       <UserAccount
-          user={project[0].owner.login}
-          img_url={project[0].owner.avatar_url}
+          // user={project[0].owner.login}
+          // img_url={project[0].owner.avatar_url}
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png"
         />
         <ProjectPopUp
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
           name={ project[0].name }
           description={ project[0].description}
-          url={ project[0].html_url}
-          contributors={project[0].contributors_url}
-          memberImg={project[0].owner.avatar_url}
-          owner= {project[0].owner.login}
-          homepage = { project[0].homepage }
+          url={ project[0].repo}
+          contributors={project[0].contributors}
+          // memberImg={project[0].owner.avatar_url}
+          // owner= {project[0].owner.login}
+          homepage = { project[0].demo }
          />
       </div>
     )
@@ -113,7 +113,16 @@ export default class ChinguProjectShowcase extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    this.fetchGithub("chingu-coders");
+    fetch("/api/projects", { "Accept": "application/json" })
+
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        // console.log(data);
+        this.setState({ projects: data, fetching: false });
+      })
+    // this.fetchGithub("chingu-coders");
   }
 
   render() {
