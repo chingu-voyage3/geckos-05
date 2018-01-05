@@ -1,6 +1,8 @@
 @import "./leaderboard.css";
 @import "./project_card.css";
 @import "./project_pop_up.css";
+@import "./user_account.css";
+@import './search_bar.css';
 
 .App {
   text-align: center;
