@@ -76,30 +76,16 @@ export default class ChinguProjectShowcase extends Component {
     const project = this.state.projects.filter(project => {
       return project.id === projectId
     });
-<<<<<<< HEAD
-   
-=======
-
->>>>>>> c3445e9519108dfc2b7632fb6e7043d3ea029813
     console.log(project);
 
     return (
       <div>
-<<<<<<< HEAD
-      <UserAccount 
-          user={project[0].owner.login}
-          img_url={project[0].owner.avatar_url}
-          picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" 
-        /> 
-        <ProjectPopUp 
-=======
       <UserAccount
           user={project[0].owner.login}
           img_url={project[0].owner.avatar_url}
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png"
         />
         <ProjectPopUp
->>>>>>> c3445e9519108dfc2b7632fb6e7043d3ea029813
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
           name={ project[0].name }
           description={ project[0].description}
@@ -111,11 +97,7 @@ export default class ChinguProjectShowcase extends Component {
          />
       </div>
     )
-<<<<<<< HEAD
-  } 
-=======
   }
->>>>>>> c3445e9519108dfc2b7632fb6e7043d3ea029813
 
   whichDisplay = display => {
     return (
@@ -141,11 +123,7 @@ export default class ChinguProjectShowcase extends Component {
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }
         </button>
-<<<<<<< HEAD
-        <SearchBar 
-=======
         <SearchBar
->>>>>>> c3445e9519108dfc2b7632fb6e7043d3ea029813
         />
         { this.state.fetching ?
             <p>Fetching project data...</p> :
