@@ -13,7 +13,8 @@ export default class ChinguProjectShowcase extends Component {
       activeProject: null,
       show: "showcase",
       perPage: 12,
-      fetching: true
+      fetching: true,
+      loggedIn: false
     }
   }
 
@@ -47,6 +48,22 @@ export default class ChinguProjectShowcase extends Component {
   }
 
   // event handlers
+  login = user => {
+    // route user back to current page after login
+    const curPage = this.state.activeProject ?
+      this.state.activeProject : this.state.show;
+    // send login request to server to be handled there
+    // send app state to server for retrieval after login
+    // but how? include it in the uri path!
+    fetch(`/login?view=${curPage}`)
+      .then(res => {
+        return res.text();
+      })
+      .then(text => {
+        console.log("text");
+      })
+  }
+
   switchDisplay = display => {
   }
 
@@ -128,7 +145,9 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.logout }>Logout</button>
+        { this.state.loggedIn ?
+            <button onClick={ this.logout }>Logout</button> :
+            <button onClick={ this.login }>Login</button> }
         <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }

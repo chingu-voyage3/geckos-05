@@ -2,16 +2,15 @@
 
 // dependencies
 const express = require("express");
+const app = express();
+const crypto = require("crypto-random-string");
 const mongoose = require("mongoose");
 const path = require("path");
-const app = express();
+const request = require("request");
 const router = express.Router();
 
 // models
 const Project = require("./models/projects.js");
-
-// load example data hardcoded in local file
-// const DATA = require("./react-ui/src/data.js");
 
 // load local env vars only in development env
 if (process.env.NODE_ENV !== "production") {
@@ -22,6 +21,7 @@ if (process.env.NODE_ENV !== "production") {
 const PORT = process.env.NODE_ENV !== "production" ?
   (process.env.API_PORT || 3001) : process.env.PORT;
 const MONGO_URI = process.env.MONGODB_URI;
+const GH_CLIENT_ID = process.env.GH_CLIENT_ID;
 
 // wire up database
 mongoose.connect(MONGO_URI);
@@ -37,11 +37,29 @@ app.use("/", (req, res, next) => {
 
 // tutorial says "Priority serve any static files"
 // does this not do the same as get("*", callback => sendFile("<react-stuff>"))?
-app.use(express.static(path.resolve(__dirname, "react-ui/build")));
+// app.use(express.static(path.resolve(__dirname, "react-ui/build")));
 
+// login flow
+app.get("/login", (req, res) => {
+  const view = req.query.view && req.query.view;
+  const state = crypto(16);
+  const ghLoginURI = `https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&state=${state}`;
+  // if request comes w/ `view` param, send request to gh
+  if (view) {
+    console.log(ghLoginURI);
+    request(ghLoginURI, (err, httpRes, body) => {
+      if (err) {
+        throw new Error(err);
+      }
+      else res.send(body);
+    });
+  }
+});
+
+// api routes
 router.get("/", (req, res) => {
   res.send("api initialized")
-})
+});
 
 // CRUD methods for projects api
 router.route("/projects")
