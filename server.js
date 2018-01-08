@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // env vars
+const pathToReact = path.resolve(__dirname, "react-ui/build");
 const PORT = process.env.NODE_ENV !== "production" ?
   (process.env.API_PORT || 3001) : process.env.PORT;
 const MONGO_URI = process.env.MONGODB_URI;
@@ -37,16 +38,19 @@ app.use("/", (req, res, next) => {
 
 // tutorial says "Priority serve any static files"
 // does this not do the same as get("*", callback => sendFile("<react-stuff>"))?
-// app.use(express.static(path.resolve(__dirname, "react-ui/build")));
+app.use((req, res, next) => {
+  express.static(pathToReact)
+  next();
+});
 
 // login flow
 app.get("/login", (req, res) => {
   const view = req.query.view && req.query.view;
   const state = crypto(16);
-  const ghLoginURI = `https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&state=${state}`;
+  const ghLoginURI = `https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&state=${state}&redirect_uri=https://geckos-05-winter17.herokuapp.com/${view}`;
   // if request comes w/ `view` param, send request to gh
   if (view) {
-    console.log(ghLoginURI);
+    console.log(req.url);
     request(ghLoginURI, (err, httpRes, body) => {
       if (err) {
         throw new Error(err);
@@ -96,11 +100,11 @@ app.use("/api", router);
 // All remaining unhandled requests return the React app
 // TODO: put error handling in here so I know where something's gone wrong when it goes wrong
 // BUG: if "/" serves all sub-paths, how to restrict sub-paths and serve _only_ route "/"
-app.get("/", (req, res) => {
-  const pathToReact = path.resolve(__dirname, "react-ui/build", "index.html");
-  console.log(pathToReact);
-  res.sendFile(path.resolve(pathToReact));
-})
+app.get("*", (req, res) => {
+  const index = path.resolve(pathToReact, "index.html");
+  console.log(index);
+  res.sendFile(index);
+});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
