@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 
+// filtering function template
+function IsTerm(props) {
+    if(props.length <20) {
+        return <div><p>Sorry</p></div>
+    }
+    return <div><p>HELLO</p></div>
+}
+
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-
         this.state = {term: ''};
-
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
     onInputChange(event){
-        this.setState({ term: event.target.value })
+        this.setState({ term: event.target.value });
     }
 
     onFormSubmit(event) {
         event.preventDefault();
-        console.log("submitted " + this.state.term);
-        this.setState({term: ''});   
+        IsTerm(this.state.term);
+        console.log("submitted " + this.state.term); 
     }
 
     render() {
@@ -42,6 +48,7 @@ class SearchBar extends Component {
                         <button type="submit"> Submit </button>
                     </span>
                 </form>
+                <IsTerm />
             </div>
         )
     }
