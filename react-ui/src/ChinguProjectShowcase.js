@@ -100,17 +100,6 @@ export default class ChinguProjectShowcase extends Component {
     )
   }
 
-  whichDisplay = display => {
-    return (
-      display === "user" ?
-        <UserAccount user={ this.state.user } /> :
-        <Showcase
-          pages={ this.pageProjects(this.state.projects) }
-          toggleShowProject={ this.toggleShowProject }
-        />
-    )
-  }
-
   // lifecycle methods
   componentDidMount() {
     fetch("/api/projects", { "Accept": "application/json" })
@@ -128,18 +117,16 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.logout }>Logout</button>
-        <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
-        <button onClick={ () => this.switchDisplay("user") }>
-          { this.state.user && this.state.user.name }
-        </button>
         <SearchBar
         />
         { this.state.fetching ?
             <p>Fetching project data...</p> :
             this.state.openProject ?
               this.renderProjectPage(this.state.openProject) :
-              this.whichDisplay(this.state.show)
+              <Showcase
+                pages={ this.pageProjects(this.state.projects) }
+                toggleShowProject={ this.toggleShowProject }
+              />
         }
       </div>
     );
