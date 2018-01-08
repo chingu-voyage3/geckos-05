@@ -117,6 +117,9 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
+        <div className="masthead-container">
+          <h1>Chingu Project Showcase</h1>
+        </div>
         <SearchBar
         />
         { this.state.fetching ?

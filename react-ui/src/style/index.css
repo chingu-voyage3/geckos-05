@@ -1,3 +1,9 @@
+@import "./showcase.css";
+@import "./project_card.css";
+@import "./project_pop_up.css";
+@import "./user_account.css";
+@import './search_bar.css';
+
 body {
   margin: 0;
   padding: 0;
