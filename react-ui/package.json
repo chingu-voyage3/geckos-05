@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "simple-grid-css": "^1.0.34"
   },
   "scripts": {
     "start": "react-scripts start",

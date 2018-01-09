@@ -1,4 +1,17 @@
 .project-card {
-  /* border: 1px solid yellow; */
-  background-color: #ccc;
+  box-shadow: 0 0 12px 6px #eee;
+  border-radius: 2px;
+  margin: var(--project-card-marg);
+  box-sizing: border-box;
+  width: var(--project-card-width);
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.project-card h3 {
+  margin-top: 0;
+}
+
+.project-card p {
+  color: #aaa;
 }

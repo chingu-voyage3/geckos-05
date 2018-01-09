@@ -1,4 +1,7 @@
+@import "./simple-grid-css.min.css";
+@import "./layout-vars.css";
 @import "./showcase.css";
+@import "./page.css";
 @import "./project_card.css";
 @import "./project_pop_up.css";
 @import "./user_account.css";
@@ -6,6 +9,7 @@
 
 body {
   margin: 0;
+  box-sizing: border-box;
   padding: 0;
   font-family: sans-serif;
 }

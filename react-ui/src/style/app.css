@@ -1,3 +1,35 @@
+@media screen and (min-width: 567px) {
+  .main-container {
+    width: calc(var(--project-card-width) + (var(--project-card-marg * 2)) + 2px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main-container {
+    width: calc(var(--project-card-width * 2) + (var(--project-card-marg * 2 * 2)) + 2px);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .main-container {
+    width: calc(var(--project-card-width * 3) + (var(--project-card-marg * 2 * 3)) + 2px);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .main-container {
+    width: calc(var(--project-card-width * 4) + (var(--project-card-marg * 2 * 4)) + 2px);
+  }
+}
+
 .App {
-  /* text-align: center; */
+  background-color: #fcfcfc;
+}
+
+.main-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
 }

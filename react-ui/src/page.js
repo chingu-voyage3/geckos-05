@@ -19,8 +19,8 @@ export default class Page extends Component {
 
   render() {
     return (
-      <div>
-        { this.renderProjects(this.props.projects) }
+      <div className="page">
+          { this.renderProjects(this.props.projects) }
       </div>
     )
   }

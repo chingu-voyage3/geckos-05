@@ -16,7 +16,7 @@ export default class Showcase extends Component {
 
   render() {
     return (
-      <div>
+      <div className="showcase">
         <Page
           projects={ this.props.pages[this.state.currentPage] }
           toggleShowProject={ this.props.toggleShowProject }

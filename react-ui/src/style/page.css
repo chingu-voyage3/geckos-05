@@ -1,0 +1,9 @@
+.page {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: calc((var(--project-card-marg) * 6) + (var(--project-card-width) * 4));
+}
+
+.projects-container {}

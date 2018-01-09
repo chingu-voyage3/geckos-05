@@ -117,20 +117,22 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <div className="masthead-container">
-          <h1>Chingu Project Showcase</h1>
+        <div className="main-container">
+          <div className="masthead-container">
+            <h1>Chingu Project Showcase</h1>
+          </div>
+          <SearchBar
+          />
+          { this.state.fetching ?
+              <p>Fetching project data...</p> :
+              this.state.openProject ?
+                this.renderProjectPage(this.state.openProject) :
+                <Showcase
+                  pages={ this.pageProjects(this.state.projects) }
+                  toggleShowProject={ this.toggleShowProject }
+                />
+          }
         </div>
-        <SearchBar
-        />
-        { this.state.fetching ?
-            <p>Fetching project data...</p> :
-            this.state.openProject ?
-              this.renderProjectPage(this.state.openProject) :
-              <Showcase
-                pages={ this.pageProjects(this.state.projects) }
-                toggleShowProject={ this.toggleShowProject }
-              />
-        }
       </div>
     );
   }
