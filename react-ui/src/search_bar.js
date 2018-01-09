@@ -27,19 +27,24 @@ class SearchBar extends Component {
                     <input
                         id="filterTextInput"
                         name="filterTextInput"
+                        className="search-field"
                         type="text"
                         placeholder="Project query"
                         value={this.state.term}
                         onChange={this.onInputChange}
                         />
-                    <select id="filterOptions" name="filterOptions">
+                    <select
+                      className="dropdown"
+                      id="filterOptions"
+                      name="filterOptions"
+                    >
                         <option>Voyage</option>
                         <option>Team</option>
                         <option>Stack</option>
                         <option>Category</option>
                     </select>
                     <span>
-                        <button type="submit"> Submit </button>
+                        <button className="btn" type="submit"> Submit </button>
                     </span>
                 </form>
             </div>

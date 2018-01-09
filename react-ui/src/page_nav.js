@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "./style/page_nav.css";
 
 export default class PageNav extends Component {
   // event handlers
@@ -19,6 +20,7 @@ export default class PageNav extends Component {
       navList.push(
         <li
           key={ Date.now() + i }
+          className="nav-list-btn"
           onClick={ () => this.props.gotoPage(i) }
         >{ i + 1 }</li>
       )
@@ -28,14 +30,20 @@ export default class PageNav extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={ () => this.prevPage(this.props.current, this.props.gotoPage) }>
+      <div className="nav-container">
+        <button
+          className="btn prev-btn"
+          onClick={ () => this.prevPage(this.props.current, this.props.gotoPage) }
+        >
           Prev
         </button>
-        <ul>
+        <ul className="nav-list">
           { this.renderNavList(this.props.current) }
         </ul>
-        <button onClick={ () => this.nextPage(this.props.current, this.props.gotoPage) }>
+        <button
+          className="btn next-btn"
+          onClick={ () => this.nextPage(this.props.current, this.props.gotoPage) }
+        >
           Next
         </button>
       </div>

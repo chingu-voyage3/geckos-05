@@ -1,9 +1,37 @@
+@media screen and (min-width: 576px) {
+  .project-card {
+    /* width: calc(var(--project-card-width) + (var(--project-card-marg) * 2) + 2px); */
+    width: calc(100% - var(--project-card-marg));
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .project-card {
+    /* width: calc((var(--project-card-width) * 2) + (var(--project-card-marg) * 2 * 2) + 2px); */
+    width: calc(50% - (var(--project-card-marg) * 2));
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .project-card {
+    /* width: calc((var(--project-card-width) * 3) + (var(--project-card-marg) * 2 * 3) + 2px); */
+    width: calc(33% - (var(--project-card-marg) * 3));
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .project-card {
+    /* width: calc((var(--project-card-width) * 4) + (var(--project-card-marg) * 2 * 4) + 2px); */
+    width: calc(25% - (var(--project-card-marg) * 4));
+  }
+}
+
 .project-card {
   box-shadow: 0 0 12px 6px #eee;
   border-radius: 2px;
   margin: var(--project-card-marg);
   box-sizing: border-box;
-  width: var(--project-card-width);
+  /* width: var(--project-card-width); */
   padding: 1.5rem;
   background-color: white;
 }

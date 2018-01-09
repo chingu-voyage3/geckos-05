@@ -1,0 +1,16 @@
+.nav-container {
+  text-align: center;
+}
+
+.prev-btn, .next-btn {}
+
+.nav-list {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list-btn {
+  display: inline;
+  list-style-type: none;
+}
