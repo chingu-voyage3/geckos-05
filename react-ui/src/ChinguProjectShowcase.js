@@ -13,7 +13,8 @@ export default class ChinguProjectShowcase extends Component {
       activeProject: null,
       show: "showcase",
       perPage: 12,
-      fetching: true
+      fetching: true,
+      term: ""
     }
   }
 
@@ -72,6 +73,12 @@ export default class ChinguProjectShowcase extends Component {
     }, [])
   }
 
+  onInputChange = term => {
+    this.setState({
+      term: term
+    })
+  };
+  
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
@@ -125,6 +132,7 @@ export default class ChinguProjectShowcase extends Component {
     // this.fetchGithub("chingu-coders");
   }
 
+
   render() {
     return (
       <div className="App">
@@ -133,14 +141,21 @@ export default class ChinguProjectShowcase extends Component {
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }
         </button>
-        <SearchBar
-        />
-        { this.state.fetching ?
-            <p>Fetching project data...</p> :
-            this.state.openProject ?
-              this.renderProjectPage(this.state.openProject) :
-              this.whichDisplay(this.state.show)
-        }
+      
+      <p> You have entered: { this.state.term }</p>
+
+      <SearchBar onInputChange={this.onInputChange}/>
+
+      
+
+
+    { this.state.fetching ?
+        <p>Fetching project data...</p> :
+        this.state.openProject ?
+          this.renderProjectPage(this.state.openProject) :
+          this.whichDisplay(this.state.show)
+    }
+ 
       </div>
     );
   }
