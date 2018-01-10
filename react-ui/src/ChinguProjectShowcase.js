@@ -71,12 +71,26 @@ export default class ChinguProjectShowcase extends Component {
       pages[page].push(project);
       return pages;
     }, [])
+  };
+
+
+  // will filter out projects that match value
+  filteredProjects = projects => {
+    return (projects.filter(project => project.name.toLowerCase().indexOf(this.state.term.toLowerCase()) > -1));
+  }
+
+  onFormSubmit = term => {
+    this.setState({
+      term: term
+    })
+    console.log("submitted");
   }
 
   onInputChange = term => {
     this.setState({
       term: term
     })
+    console.log(this.filteredProjects(this.state.projects));
   };
   
   renderProjectPage = projectId => {
@@ -85,7 +99,7 @@ export default class ChinguProjectShowcase extends Component {
     });
 
     console.log(project);
-
+    
     return (
       <div>
       <UserAccount
@@ -107,15 +121,23 @@ export default class ChinguProjectShowcase extends Component {
     )
   }
 
+  // note: "temporary" fix for TypeError: projects undefined when
+  // user searches for a term with no results. 
   whichDisplay = display => {
+    if(this.state.hasError) {
+      return ( 
+        <div> Sorry there are no matching results!</div>
+      )
+    } else{
     return (
       display === "user" ?
         <UserAccount user={ this.state.user } /> :
         <Showcase
-          pages={ this.pageProjects(this.state.projects) }
+          pages={ this.pageProjects(this.filteredProjects(this.state.projects))}
           toggleShowProject={ this.toggleShowProject }
         />
     )
+  }
   }
 
   // lifecycle methods
@@ -132,6 +154,11 @@ export default class ChinguProjectShowcase extends Component {
     // this.fetchGithub("chingu-coders");
   }
 
+  // error handling
+  componentDidCatch() {
+    this.setState( { hasError: true})
+  }
+
 
   render() {
     return (
@@ -141,14 +168,12 @@ export default class ChinguProjectShowcase extends Component {
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }
         </button>
+
+      <SearchBar 
+        onInputChange={this.onInputChange}
+        onFormSubmit={this.onFormSubmit}
+      />
       
-      <p> You have entered: { this.state.term }</p>
-
-      <SearchBar onInputChange={this.onInputChange}/>
-
-      
-
-
     { this.state.fetching ?
         <p>Fetching project data...</p> :
         this.state.openProject ?
