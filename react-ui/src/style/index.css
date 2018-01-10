@@ -1,5 +1,6 @@
 @import "./simple-grid-css.min.css";
 @import "./layout-vars.css";
+@import "./colors.css";
 @import "./showcase.css";
 @import "./page.css";
 @import "./project_card.css";

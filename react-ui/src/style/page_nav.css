@@ -2,7 +2,9 @@
   text-align: center;
 }
 
-.prev-btn, .next-btn {}
+.prev-btn, .next-btn {
+  margin: 0 .5rem;
+}
 
 .nav-list {
   display: inline;
@@ -10,7 +12,21 @@
   padding: 0;
 }
 
-.nav-list-btn {
+.nav-btn {
   display: inline;
+  vertical-align: middle;
+  border: none;
+  margin: 0 .5rem;
+  padding: 0;
+  background: none;
+  cursor: pointer;
   list-style-type: none;
+  font-size: .8rem;
+  font-weight: bold;
+  color: var(--blue);
+  fill: var(--blue);
 }
+
+.nav-arrow {}
+
+.nav-number {}

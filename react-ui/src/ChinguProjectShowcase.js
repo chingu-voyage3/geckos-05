@@ -117,9 +117,10 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
+        <div className="backdrop"></div>
         <div className="main-container">
           <div className="masthead-container">
-            <h1>Chingu Project Showcase</h1>
+            <h1 className="masthead">Chingu Project Showcase</h1>
           </div>
           <SearchBar
           />
