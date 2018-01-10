@@ -11,8 +11,9 @@ export default class ProjectPopUp extends Component {
   render() {
     // other data: teams, votes, links, date added
     return (
-      
+
       <div className="project-pop-up">
+        <button onClick={ this.props.toggleShowProject }>&times;</button>
         <div>
           <img src={ this.props.picture } alt="." />
           <h2>Project Name: { this.props.name }</h2>
@@ -26,7 +27,6 @@ export default class ProjectPopUp extends Component {
           <img src={this.props.memberImg}  alt="member" className="memberImage"/>
           <p>{ this.props.owner }</p>
         </div>
-        <a href="/" > <button> Back </button></a>
       </div>
     )
   }

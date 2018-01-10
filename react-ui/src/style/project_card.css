@@ -47,5 +47,5 @@
 }
 
 .project-card p {
-  color: #aaa;
+  color: var(--primary-text-color);
 }

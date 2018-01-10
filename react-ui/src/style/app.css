@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 @media screen and (min-width: 567px) {
   .main-container {
     /* width: calc(var(--project-card-width) + (var(--project-card-marg) * 2) + 2px); */
@@ -26,8 +28,12 @@
   }
 }
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 body, .App, .backdrop {
-  background-color: var(--purple);
+  background-color: var(--background-color);
 }
 
 .App {
@@ -52,7 +58,10 @@ body, .App, .backdrop {
 
 .search-field, .dropdown, .btn {
   -webkit-appearance: none;
+  border-radius: 2px;
+  border: 1px solid var(--blue);
   margin: 0 .25rem;
+  padding: .25rem;
 }
 
 .search-field:focus, .search-field:active, .btn:focus, .btn:active {
@@ -60,9 +69,6 @@ body, .App, .backdrop {
 }
 
 .search-field, .dropdown {
-  border-radius: 2px;
-  border: 1px solid var(--blue);
-  padding: .25rem;
 }
 
 .search-field:focus, .search-field:active {

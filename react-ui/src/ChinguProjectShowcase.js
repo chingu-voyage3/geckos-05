@@ -75,10 +75,8 @@ export default class ChinguProjectShowcase extends Component {
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
-    });
-
+    })[0];
     console.log(project);
-
     return (
       <div>
       <UserAccount
@@ -88,13 +86,14 @@ export default class ChinguProjectShowcase extends Component {
         />
         <ProjectPopUp
           picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
-          name={ project[0].name }
-          description={ project[0].description}
-          url={ project[0].repo}
-          contributors={project[0].contributors}
+          name={ project.name }
+          description={ project.description}
+          url={ project.repo}
+          contributors={project.contributors}
           // memberImg={project[0].owner.avatar_url}
           // owner= {project[0].owner.login}
-          homepage = { project[0].demo }
+          homepage = { project.demo }
+          toggleShowProject={ () => this.toggleShowProject(project._id) }
          />
       </div>
     )

@@ -23,8 +23,8 @@
   list-style-type: none;
   font-size: .8rem;
   font-weight: bold;
-  color: var(--blue);
-  fill: var(--blue);
+  color: var(--primary-text-color);
+  fill: var(--primary-text-color);
 }
 
 .nav-arrow {}
