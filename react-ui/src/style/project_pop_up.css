@@ -4,13 +4,28 @@
   z-index: 2;
   border-radius: 1px;
   border: 1px solid grey;
-  padding: 1rem 2rem;
   margin: 0 auto;
-  background-color: #e3e3e3f3;
+  padding: 1rem 2rem;
+  background-color: var(--grey);
 }
 
 .project-pop-up > * {
   margin: 1rem;
+}
+
+.project-heading {
+  position: relative;
+}
+
+.project-name {}
+
+.close-project-btn {
+  position: absolute;
+  right: 0;
+}
+
+.project-content {
+  text-align: left;
 }
 
 .memberImage {

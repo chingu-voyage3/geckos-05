@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import UserAccount from './user_account';
 import Showcase from './showcase';
-import './style/app.css';
 import ProjectPopUp from './project.js';
 import SearchBar from './search_bar.js'
 
