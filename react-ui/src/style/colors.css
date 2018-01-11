@@ -10,4 +10,5 @@
   --background-color: var(--lt-blue);
   --primary-text-color: var(--near-black);
   --secondary-text-color: var(--dark-grey);
+  --hilight-color: var(--blue);
 }

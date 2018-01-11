@@ -25,27 +25,14 @@ class SearchBar extends Component {
             <div className="search-bar">
                 <form onSubmit={this.onFormSubmit} id="filterForm" name="filterForm">
                     <input
-                        id="filterTextInput"
-                        name="filterTextInput"
-                        className="text-field search-field"
-                        type="text"
-                        placeholder="Project query"
-                        value={this.state.term}
-                        onChange={this.onInputChange}
-                        />
-                    <select
-                      className="dropdown"
-                      id="filterOptions"
-                      name="filterOptions"
-                    >
-                        <option>Voyage</option>
-                        <option>Team</option>
-                        <option>Stack</option>
-                        <option>Category</option>
-                    </select>
-                    <span>
-                        <button className="btn" type="submit"> Submit </button>
-                    </span>
+                      id="filterTextInput"
+                      name="filterTextInput"
+                      className="text-field search-field"
+                      type="text"
+                      placeholder="Project query"
+                      value={this.state.term}
+                      onChange={this.onInputChange}
+                    />
                 </form>
             </div>
         )
