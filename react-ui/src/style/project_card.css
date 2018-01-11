@@ -42,10 +42,11 @@
   background-color: white;
 }
 
-.project-card h3 {
+.project-heading {
   margin-top: 0;
+  letter-spacing: .065rem;
 }
 
-.project-card p {
-  color: var(--primary-text-color);
+.project-description {
+  color: var(--secondary-text-color);
 }

@@ -10,6 +10,7 @@ export default class Page extends Component {
           _id={ project._id }
           name={ project.name }
           description={ project.description }
+          repo={ project.repo }
           toggleShowProject={ this.props.toggleShowProject }
           url= { project.html_url }
         />

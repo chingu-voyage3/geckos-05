@@ -5,6 +5,9 @@
   --blue: #5cd3ff;
   --lt-blue: #d6f4ff;
   --grey: #eee;
+  --dark-grey: #999;
+  --near-black: #555;
   --background-color: var(--lt-blue);
-  --primary-text-color: var(--pink);
+  --primary-text-color: var(--near-black);
+  --secondary-text-color: var(--dark-grey);
 }

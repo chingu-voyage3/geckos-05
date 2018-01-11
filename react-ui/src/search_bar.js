@@ -27,7 +27,7 @@ class SearchBar extends Component {
                     <input
                         id="filterTextInput"
                         name="filterTextInput"
-                        className="search-field"
+                        className="text-field search-field"
                         type="text"
                         placeholder="Project query"
                         value={this.state.term}

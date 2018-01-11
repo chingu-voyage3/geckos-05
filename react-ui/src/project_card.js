@@ -15,8 +15,9 @@ export default class ProjectCard extends Component {
           this.props.toggleShowProject(this.props._id);
         }}
       >
-        <h3>{ this.props.name }</h3>
-        <p>{ this.props.description }</p>
+        <h3 className="project-heading">{ this.props.name }</h3>
+        <p className="project-description">{ this.props.description }</p>
+        <a href={ this.props.repo }>{ this.props.repo }</a>
       </div>
     )
   }
