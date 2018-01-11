@@ -1,9 +1,6 @@
 .nav-container {
+  margin-bottom: .75rem;
   text-align: center;
-}
-
-.prev-btn, .next-btn {
-  margin: 0 .5rem;
 }
 
 .nav-list {
@@ -27,6 +24,13 @@
   fill: var(--primary-text-color);
 }
 
-.nav-arrow {}
+.prev-btn, .next-btn {
+  vertical-align: bottom;
+}
+
+.nav-arrow {
+  vertical-align: bottom;
+  width: 1rem; height: 1rem;
+}
 
 .nav-number {}

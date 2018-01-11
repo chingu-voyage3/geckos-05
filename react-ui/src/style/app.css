@@ -60,9 +60,12 @@ body, .App, .backdrop {
 .search-field, .dropdown, .btn {
   -webkit-appearance: none;
   border-radius: 2px;
-  border: 1px solid var(--blue);
   margin: 0 .25rem;
   padding: .25rem;
+}
+
+.search-field, .dropdown {
+  border: 1px solid var(--blue);
 }
 
 .search-field:focus, .search-field:active, .btn:focus, .btn:active {

@@ -3,6 +3,8 @@
   --purple: #de87e6;
   --green: #30ff86;
   --blue: #5cd3ff;
-  --background-color: var(--blue);
+  --lt-blue: #d6f4ff;
+  --grey: #eee;
+  --background-color: var(--lt-blue);
   --primary-text-color: var(--pink);
 }
