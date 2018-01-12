@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserAccount from './user_account';
+import OnClickOverlay from './on_click_overlay.js';
 import Showcase from './showcase';
 import ProjectPopUp from './project.js';
 import SearchBar from './search_bar.js'
@@ -50,7 +50,7 @@ export default class ChinguProjectShowcase extends Component {
   }
 
   toggleShowProject = projectId => {
-    console.log(projectId);
+    console.log(projectId || "undefined");
     this.setState(prev => {
       if (prev.openProject === projectId) {
         return { openProject: null }
@@ -75,9 +75,7 @@ export default class ChinguProjectShowcase extends Component {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
     })[0];
-    console.log(project);
     return (
-      <div>
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
         name={ project.name }
@@ -88,8 +86,7 @@ export default class ChinguProjectShowcase extends Component {
         // owner= {project[0].owner.login}
         homepage = { project.demo }
         toggleShowProject={ () => this.toggleShowProject(project._id) }
-       />
-      </div>
+     />
     )
   }
 
@@ -117,13 +114,14 @@ export default class ChinguProjectShowcase extends Component {
           </div>
           <SearchBar
           />
-            { this.state.fetching ?
-              <p>Fetching project data...</p> :
-              <Showcase
-                pages={ this.pageProjects(this.state.projects) }
-                toggleShowProject={ this.toggleShowProject }
-              /> }
-            { this.state.openProject && this.renderProjectPage(this.state.openProject) }
+          { this.state.fetching ?
+            <p>Fetching project data...</p> :
+            <Showcase
+              pages={ this.pageProjects(this.state.projects) }
+              toggleShowProject={ this.toggleShowProject }
+            /> }
+          { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }
+          { this.state.openProject && this.renderProjectPage(this.state.openProject) }
         </div>
       </div>
     );

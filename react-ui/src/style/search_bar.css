@@ -3,4 +3,12 @@
   text-align: right;
 }
 
-.search-field {}
+.search-field {
+  width: 7.5rem;
+  transition: all .25s ease-in-out;
+}
+
+.search-field:focus {
+  width: 50%;
+  transition: all .25s ease-in-out;
+}

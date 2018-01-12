@@ -1,10 +1,13 @@
 * {
   --pink: #fe6a99;
-  --purple: #de87e6;
+  --yellow: #faaa14;
+  --lt-yellow: #ffcb6b;
   --green: #30ff86;
   --blue: #5cd3ff;
   --lt-blue: #d6f4ff;
-  --grey: #eee;
+  --purple: #de87e6;
+  --lt-grey: #eee;
+  --grey: #ccc;
   --dark-grey: #999;
   --near-black: #555;
   --background-color: var(--lt-blue);

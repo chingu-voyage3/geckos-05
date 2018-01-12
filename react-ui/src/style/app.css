@@ -55,6 +55,14 @@ body, .App, .backdrop {
   box-sizing: border-box;
 }
 
+.on-click-overlay {
+  position: absolute;
+  top: 0; left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  height: 100%;
+}
+
 .masthead {
   margin: 2rem var(--project-card-marg);
   font-weight: lighter;
@@ -98,10 +106,22 @@ a:hover{
   border: 2px solid var(--hilight-color);
 }
 
+.text-field {
+  background-color: var(--lt-grey);
+}
+
+.text-field:focus {
+  background-color: white;
+}
+
 .text-field::placeholder {
-  color: #ccc;
+  color: var(--grey);
 }
 
 .text-field:focus::placeholder {
   color: var(--grey);
+}
+
+.close-btn {
+  line-height: normal;
 }
