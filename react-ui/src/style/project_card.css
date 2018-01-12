@@ -32,11 +32,9 @@
 
 .project-card {
   box-shadow: 0 0 8px 2px var(--lt-yellow);
-  /* box-shadow: 0 0 12px 6px #eee; */
   border-radius: 2px;
   margin: var(--project-card-marg);
   box-sizing: border-box;
-  /* width: var(--project-card-width); */
   height: 14rem;
   padding: 1.5rem;
   background-color: white;
