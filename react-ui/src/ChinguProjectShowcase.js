@@ -74,10 +74,16 @@ export default class ChinguProjectShowcase extends Component {
   };
 
 
-  // will filter out projects that match value
+  // will filter out projects that match value by name
   filteredProjects = projects => {
-    return (projects.filter(project => project.name.toLowerCase().indexOf(this.state.term.toLowerCase()) > -1));
+    return projects.filter(project => project.name.toLowerCase().indexOf(this.state.term.toLowerCase()) > -1);
   }
+
+  // old filter suggestions: voyage, team, stack, category
+  // filter by tech_stack
+  filteredStack = projects => {
+    return projects.filter(project => project.tech_stack) 
+    };
 
   onFormSubmit = term => {
     this.setState({
@@ -91,6 +97,9 @@ export default class ChinguProjectShowcase extends Component {
       term: term
     })
     console.log(this.filteredProjects(this.state.projects));
+    // console.log(this.filteredStack(this.state.projects));
+
+    // console.log(this.state.projects)
   };
   
   renderProjectPage = projectId => {
@@ -168,7 +177,7 @@ export default class ChinguProjectShowcase extends Component {
         <button onClick={ () => this.switchDisplay("user") }>
           { this.state.user && this.state.user.name }
         </button>
-
+      <p> You are searching for: {this.state.term} </p>
       <SearchBar 
         onInputChange={this.onInputChange}
         onFormSubmit={this.onFormSubmit}

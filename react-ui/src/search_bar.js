@@ -45,6 +45,7 @@ class SearchBar extends Component {
                         value={term}
                         onChange={this.onInputChange.bind(this)}
                         />
+
                     <select id="filterOptions" name="filterOptions">
                         <option>Voyage</option>
                         <option>Team</option>
@@ -55,11 +56,10 @@ class SearchBar extends Component {
                         <button type="submit"> Submit </button>
                     </span>
                 </form>
-                {
-          this.isTerm(term) ? <p><b>MORE</b> than 5 char</p>:
-          <p>Less than 5 char</p> 
-        }
-      
+                {/* {
+                this.isTerm(term) ? <p><b>MORE</b> than 5 char</p>:
+                                    <p>Less than 5 char</p> 
+                } */}
         </div>
         )
     }
