@@ -6,7 +6,6 @@ class SearchBar extends Component {
         this.state = {term: ""};
 
         this.onInputChange = this.onInputChange.bind(this);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
 
     }
     
@@ -25,13 +24,6 @@ class SearchBar extends Component {
         console.log(this.state.term)
     }
 
-    onFormSubmit(event) {
-        this.props.onFormSubmit(event.target.value)
-        event.preventDefault();
-        console.log("submitted " + this.state.term);
-        this.setState({term: ''});   
-    }
-
     render() {
         const term = this.state.term;
         return (
@@ -47,14 +39,9 @@ class SearchBar extends Component {
                         />
 
                     <select id="filterOptions" name="filterOptions">
-                        <option>Voyage</option>
-                        <option>Team</option>
-                        <option>Stack</option>
-                        <option>Category</option>
+                        <option value="name">Project/ Repo Name</option>
+                        <option value="description">Description</option>
                     </select>
-                    <span>
-                        <button type="submit"> Submit </button>
-                    </span>
                 </form>
                 {/* {
                 this.isTerm(term) ? <p><b>MORE</b> than 5 char</p>:
