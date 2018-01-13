@@ -11,22 +11,18 @@ export default class ProjectPopUp extends Component {
   render() {
     // other data: teams, votes, links, date added
     return (
-      
       <div className="project-pop-up">
-        <div>
-          <img src={ this.props.picture } alt="." />
-          <h2>Project Name: { this.props.name }</h2>
-          <p>Description: { this.props.description }</p>
+        <h2 className="project-heading">{ this.props.name }
+          <button className="btn close-btn close-project-btn" onClick={ this.props.toggleShowProject }>&times;</button>
+        </h2>
+        <div className="project-content">
+          <img className="project-img" src={ this.props.picture } alt="." />
+          <p className="project-description">{ this.props.description }</p>
           <section className="resource-links">{ this.props.links }</section>
-          <a href={this.props.url}> Github Link </a>
-          <a href={this.props.homepage}> Live Link </a>
-          <p> Team Members in Group: { this.props.contributors } </p>
+          <p><a className="project-link repo-link" href={this.props.url}>{ this.props.url }</a></p>
+          { this.props.homepage && <p><a className="project-link demo-link" href={this.props.homepage}>{ this.props.homepage }</a></p>}
+          <p className="contributors-list">{ this.props.contributors.join(", ") }</p>
         </div>
-        <div>
-          <img src={this.props.memberImg}  alt="member" className="memberImage"/>
-          <p>{ this.props.owner }</p>
-        </div>
-        <a href="/" > <button> Back </button></a>
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import UserAccount from './user_account';
+import OnClickOverlay from './on_click_overlay.js';
 import Showcase from './showcase';
-import './style/app.css';
 import ProjectPopUp from './project.js';
 import SearchBar from './search_bar.js'
 
@@ -51,7 +50,7 @@ export default class ChinguProjectShowcase extends Component {
   }
 
   toggleShowProject = projectId => {
-    console.log(projectId);
+    console.log(projectId || "undefined");
     this.setState(prev => {
       if (prev.openProject === projectId) {
         return { openProject: null }
@@ -75,39 +74,19 @@ export default class ChinguProjectShowcase extends Component {
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
-    });
-
-    console.log(project);
-
+    })[0];
     return (
-      <div>
-      <UserAccount
-          // user={project[0].owner.login}
-          // img_url={project[0].owner.avatar_url}
-          picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png"
-        />
-        <ProjectPopUp
-          picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
-          name={ project[0].name }
-          description={ project[0].description}
-          url={ project[0].repo}
-          contributors={project[0].contributors}
-          // memberImg={project[0].owner.avatar_url}
-          // owner= {project[0].owner.login}
-          homepage = { project[0].demo }
-         />
-      </div>
-    )
-  }
-
-  whichDisplay = display => {
-    return (
-      display === "user" ?
-        <UserAccount user={ this.state.user } /> :
-        <Showcase
-          pages={ this.pageProjects(this.state.projects) }
-          toggleShowProject={ this.toggleShowProject }
-        />
+      <ProjectPopUp
+        picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
+        name={ project.name }
+        description={ project.description}
+        url={ project.repo}
+        contributors={project.contributors}
+        // memberImg={project[0].owner.avatar_url}
+        // owner= {project[0].owner.login}
+        homepage = { project.demo }
+        toggleShowProject={ () => this.toggleShowProject(project._id) }
+     />
     )
   }
 
@@ -128,19 +107,22 @@ export default class ChinguProjectShowcase extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.logout }>Logout</button>
-        <button onClick={ () => this.switchDisplay("showcase") }>Projects</button>
-        <button onClick={ () => this.switchDisplay("user") }>
-          { this.state.user && this.state.user.name }
-        </button>
-        <SearchBar
-        />
-        { this.state.fetching ?
+        <div className="backdrop"></div>
+        <div className="main-container">
+          <div className="masthead-container">
+            <h1 className="masthead">Chingu Project Showcase</h1>
+          </div>
+          <SearchBar
+          />
+          { this.state.fetching ?
             <p>Fetching project data...</p> :
-            this.state.openProject ?
-              this.renderProjectPage(this.state.openProject) :
-              this.whichDisplay(this.state.show)
-        }
+            <Showcase
+              pages={ this.pageProjects(this.state.projects) }
+              toggleShowProject={ this.toggleShowProject }
+            /> }
+          { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }
+          { this.state.openProject && this.renderProjectPage(this.state.openProject) }
+        </div>
       </div>
     );
   }

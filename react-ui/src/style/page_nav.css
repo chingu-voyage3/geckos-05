@@ -1,0 +1,36 @@
+.nav-container {
+  margin-bottom: .75rem;
+  text-align: center;
+}
+
+.nav-list {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-btn {
+  display: inline;
+  vertical-align: middle;
+  border: none;
+  margin: 0 .5rem;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  list-style-type: none;
+  font-size: .8rem;
+  font-weight: bold;
+  color: var(--primary-text-color);
+  fill: var(--primary-text-color);
+}
+
+.prev-btn, .next-btn {
+  vertical-align: bottom;
+}
+
+.nav-arrow {
+  vertical-align: bottom;
+  width: 1rem; height: 1rem;
+}
+
+.nav-number {}

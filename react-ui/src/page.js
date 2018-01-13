@@ -10,6 +10,7 @@ export default class Page extends Component {
           _id={ project._id }
           name={ project.name }
           description={ project.description }
+          repo={ project.repo }
           toggleShowProject={ this.props.toggleShowProject }
           url= { project.html_url }
         />
@@ -19,8 +20,8 @@ export default class Page extends Component {
 
   render() {
     return (
-      <div>
-        { this.renderProjects(this.props.projects) }
+      <div className="page">
+          { this.renderProjects(this.props.projects) }
       </div>
     )
   }

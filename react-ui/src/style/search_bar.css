@@ -1,3 +1,14 @@
-.search-bar > * {
-    padding: 10px;
+.search-bar {
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+
+.search-field {
+  width: 7.5rem;
+  transition: all .25s ease-in-out;
+}
+
+.search-field:focus {
+  width: 50%;
+  transition: all .25s ease-in-out;
 }

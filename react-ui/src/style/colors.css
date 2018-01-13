@@ -1,0 +1,18 @@
+* {
+  --pink: #fe6a99;
+  --yellow: #faaa14;
+  --lt-yellow: #ffcb6b;
+  --green: #30ff86;
+  --blue: #5cd3ff;
+  --dark-blue: #00a8e6;
+  --lt-blue: #d6f4ff;
+  --purple: #de87e6;
+  --lt-grey: #eee;
+  --grey: #ccc;
+  --dark-grey: #999;
+  --near-black: #555;
+  --background-color: var(--lt-blue);
+  --primary-text-color: var(--near-black);
+  --secondary-text-color: var(--dark-grey);
+  --hilight-color: var(--blue);
+}
