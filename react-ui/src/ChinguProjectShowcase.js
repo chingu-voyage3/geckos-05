@@ -13,7 +13,8 @@ export default class ChinguProjectShowcase extends Component {
       show: "showcase",
       perPage: 12,
       fetching: true,
-      term: ""
+      term: "",
+      selectValue: "name"
     }
   }
 
@@ -92,8 +93,8 @@ export default class ChinguProjectShowcase extends Component {
     })
   };
 
-  handleChange = e => {
-    this.setState({selectValue: e.target.value});
+  handleChange = selectValue => {
+    this.setState({selectValue: selectValue});
 }
 
   renderProjectPage = projectId => {
@@ -139,30 +140,6 @@ export default class ChinguProjectShowcase extends Component {
     }
   }
 
-  // note: "temporary" fix for TypeError: projects undefined when
-  // user searches for a term with no results.
-  whichDisplay = display => {
-    if(this.state.hasError) {
-      return (
-        <div>
-          <h2>Sorry there are no matching results!</h2>
-        <Showcase
-          pages={ this.pageProjects(this.state.projects)}
-          toggleShowProject={ this.toggleShowProject }
-        />
-        </div>
-
-      )
-    } else{
-    return (
-        <Showcase
-          pages={ this.pageProjects( this.filteredProjects(this.state.projects))}
-          toggleShowProject={ this.toggleShowProject }
-        />
-    )
-    }
-  }
-
   // lifecycle methods
   componentDidMount() {
     fetch("/api/projects", { "Accept": "application/json" })
@@ -184,9 +161,6 @@ export default class ChinguProjectShowcase extends Component {
 
 
   render() {
-    console.log(this.state.selectValue)
-    this.filteredDescription(this.state.projects)
-    console.log(this.filteredDescription(this.state.projects)); //dont forget to remove
     return (
       <div className="App">
         <div className="backdrop"></div>
@@ -199,7 +173,6 @@ export default class ChinguProjectShowcase extends Component {
             onInputChange={this.onInputChange}
             handleChange={this.handleChange}
           />
-          <p>{this.state.selectValue}</p>
           { this.state.fetching ?
             <p>Fetching project data...</p> :
             this.state.openProject ?

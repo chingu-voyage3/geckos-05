@@ -44,8 +44,8 @@
 .project-card:hover {
   box-shadow: 0 0 12px 2px var(--lt-yellow);
   cursor: pointer;
-  -webkit-transform: translate(0, -1px);
-  transform: translate(0, -1px)
+  -webkit-transform: translate(0, -3px);
+  transform: translate(0, -3px)
 }
 
 .project-heading {
