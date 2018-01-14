@@ -11,6 +11,15 @@ class SearchBar extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    // testing filter function
+    isTerm = props => {
+        if(props.length > 5) {
+            console.log("it is true " + props.length);
+            return true;
+        } else {console.log("it is false " + props.length);
+        return false; }
+    }
+
     onInputChange(event){
         this.props.onInputChange(event.target.value);
         this.setState({ term: event.target.value });
@@ -19,7 +28,7 @@ class SearchBar extends Component {
 
     // drop down functions
     handleChange(e) {
-        this.props.handleChange(e.target.value);
+        // this.props.handleChange(e.target.value)
         this.setState({selectValue:e.target.value});
     }
 
@@ -35,16 +44,20 @@ class SearchBar extends Component {
                       className="text-field search-field"
                       type="text"
                       placeholder="Project search"
-                      value={term} 
+                      value={term}
                       onChange={this.onInputChange.bind(this)}
                     />
-                    <select id="filterOptions" 
-                            name="filterOptions" 
+                    <select id="filterOptions"
+                            name="filterOptions"
                             onChange={this.handleChange}>
                         <option value="name">Project/ Repo Name</option>
                         <option value="description">Description</option>
                     </select>
                 </form>
+                {/* {
+                this.isTerm(term) ? <p><b>MORE</b> than 5 char</p>:
+                                    <p>Less than 5 char</p>
+                } */}
             </div>
         )
     }
