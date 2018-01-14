@@ -11,15 +11,6 @@ class SearchBar extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    // testing filter function
-    isTerm = props => {
-        if(props.length > 5) {
-            console.log("it is true " + props.length);
-            return true;
-        } else {console.log("it is false " + props.length); 
-        return false; }
-    }
-
     onInputChange(event){
         this.props.onInputChange(event.target.value);
         this.setState({ term: event.target.value });
@@ -28,7 +19,7 @@ class SearchBar extends Component {
 
     // drop down functions
     handleChange(e) {
-        // this.props.handleChange(e.target.value)
+        this.props.handleChange(e.target.value);
         this.setState({selectValue:e.target.value});
     }
 
@@ -54,10 +45,6 @@ class SearchBar extends Component {
                         <option value="description">Description</option>
                     </select>
                 </form>
-                {/* {
-                this.isTerm(term) ? <p><b>MORE</b> than 5 char</p>:
-                                    <p>Less than 5 char</p> 
-                } */}
             </div>
         )
     }

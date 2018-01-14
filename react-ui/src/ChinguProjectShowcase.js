@@ -13,7 +13,8 @@ export default class ChinguProjectShowcase extends Component {
       show: "showcase",
       perPage: 12,
       fetching: true,
-      term: ""
+      term: "",
+      selectValue: "name"
     }
   }
 
@@ -92,8 +93,8 @@ export default class ChinguProjectShowcase extends Component {
     })
   };
 
-  handleChange = e => {
-    this.setState({selectValue: e.target.value});
+  handleChange = selectValue => {
+    this.setState({selectValue: selectValue});
 }
   
   renderProjectPage = projectId => {
@@ -106,15 +107,15 @@ export default class ChinguProjectShowcase extends Component {
     return (
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
-        name={ project.name }
-        description={ project.description}
-        url={ project.repo}
-        contributors={project.contributors}
+        name={ project[0].name }
+        description={ project[0].description}
+        url={ project[0].repo}
+        contributors={project[0].contributors}
         // memberImg={project[0].owner.avatar_url}
         // owner= {project[0].owner.login}
-        homepage = { project.demo }
+        homepage = { project[0].demo }
         toggleShowProject={ () => this.toggleShowProject(project._id) }
-     />
+/>
     )
   }
 
@@ -124,18 +125,15 @@ export default class ChinguProjectShowcase extends Component {
     if(this.state.hasError) {
       return ( 
         <div> 
-          <h2>Sorry there are no matching results!</h2>
-        <Showcase
-          pages={ this.pageProjects(this.state.projects)}
-          toggleShowProject={ this.toggleShowProject }
-        />
+          <h2>Sorry there are no matching results! Refresh to try again!</h2>
         </div>
         
       )
     } else{
     return (
         <Showcase
-          pages={ this.pageProjects( this.filteredProjects(this.state.projects))}
+          pages={ this.pageProjects(this.state.selectValue === "name" ? 
+          this.filteredProjects(this.state.projects): this.filteredDescription(this.state.projects))}
           toggleShowProject={ this.toggleShowProject }
         />
     )
@@ -163,9 +161,6 @@ export default class ChinguProjectShowcase extends Component {
   
 
   render() {
-    console.log(this.state.selectValue)
-    this.filteredDescription(this.state.projects)
-    console.log(this.filteredDescription(this.state.projects)); //dont forget to remove
     return (
       <div className="App">
         <div className="backdrop"></div>
@@ -178,7 +173,6 @@ export default class ChinguProjectShowcase extends Component {
             onInputChange={this.onInputChange}
             handleChange={this.handleChange}
           />
-          <p>{this.state.selectValue}</p>
           { this.state.fetching ?
             <p>Fetching project data...</p> :
             this.state.openProject ?
