@@ -50,3 +50,8 @@
 .memberImage {
   height: 75px; width: 75px;
 }
+
+.translate {
+  transform: translate(0,-10px);
+  -webkit-transform:translate(0,-10px)
+}

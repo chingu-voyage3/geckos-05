@@ -12,7 +12,8 @@ export default class ChinguProjectShowcase extends Component {
       activeProject: null,
       show: "showcase",
       perPage: 12,
-      fetching: true
+      fetching: true,
+      term: ""
     }
   }
 
@@ -71,10 +72,37 @@ export default class ChinguProjectShowcase extends Component {
     }, [])
   }
 
+  // will filter out projects that match value by name
+  filteredProjects = projects => {
+    return projects.filter(project => project.name.toLowerCase().indexOf(this.state.term.toLowerCase()) > -1);
+  }
+
+  // old filter suggestions: voyage, team, stack, category
+  // will filter projects based on description * use with caution *
+  filteredDescription = projects => {
+    const re = RegExp( this.state.term, 'i');
+    return projects.filter(
+      project => re.test(project.description)
+    );
+  }
+
+  onInputChange = term => {
+    this.setState({
+      term: term
+    })
+  };
+
+  handleChange = e => {
+    this.setState({selectValue: e.target.value});
+}
+  
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
-    })[0];
+    });
+
+    console.log(project);
+    
     return (
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
@@ -90,6 +118,30 @@ export default class ChinguProjectShowcase extends Component {
     )
   }
 
+  // note: "temporary" fix for TypeError: projects undefined when
+  // user searches for a term with no results. 
+  whichDisplay = display => {
+    if(this.state.hasError) {
+      return ( 
+        <div> 
+          <h2>Sorry there are no matching results!</h2>
+        <Showcase
+          pages={ this.pageProjects(this.state.projects)}
+          toggleShowProject={ this.toggleShowProject }
+        />
+        </div>
+        
+      )
+    } else{
+    return (
+        <Showcase
+          pages={ this.pageProjects( this.filteredProjects(this.state.projects))}
+          toggleShowProject={ this.toggleShowProject }
+        />
+    )
+    }
+  }
+
   // lifecycle methods
   componentDidMount() {
     fetch("/api/projects", { "Accept": "application/json" })
@@ -103,23 +155,36 @@ export default class ChinguProjectShowcase extends Component {
       })
     // this.fetchGithub("chingu-coders");
   }
+  
+    // error handling
+    componentDidCatch() {
+      this.setState( { hasError: true})
+    }
+  
 
   render() {
+    console.log(this.state.selectValue)
+    this.filteredDescription(this.state.projects)
+    console.log(this.filteredDescription(this.state.projects)); //dont forget to remove
     return (
       <div className="App">
         <div className="backdrop"></div>
         <div className="main-container">
           <div className="masthead-container">
             <h1 className="masthead">Chingu Project Showcase</h1>
+            <h3 className="masthead"> You are searching for: <strong>{this.state.term}</strong> </h3>
           </div>
           <SearchBar
+            onInputChange={this.onInputChange}
+            handleChange={this.handleChange}
           />
+          <p>{this.state.selectValue}</p>
           { this.state.fetching ?
             <p>Fetching project data...</p> :
-            <Showcase
-              pages={ this.pageProjects(this.state.projects) }
-              toggleShowProject={ this.toggleShowProject }
-            /> }
+            this.state.openProject ?
+              this.renderProjectPage(this.state.openProject) :
+              this.whichDisplay(this.state.show)
+          } 
           { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }
           { this.state.openProject && this.renderProjectPage(this.state.openProject) }
         </div>

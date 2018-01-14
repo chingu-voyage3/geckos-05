@@ -38,6 +38,14 @@
   height: 14rem;
   padding: 1.5rem;
   background-color: white;
+  transition: 0.3s;
+}
+
+.project-card:hover {
+  box-shadow: 0 0 12px 2px var(--lt-yellow);
+  cursor: pointer;
+  -webkit-transform: translate(0, -1px);
+  transform: translate(0, -1px)
 }
 
 .project-heading {

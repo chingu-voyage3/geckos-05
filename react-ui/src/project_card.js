@@ -9,7 +9,7 @@ export default class ProjectCard extends Component {
   render() {
     return (
       <div
-        className="project-card"
+        className="project-card translate"
         onClick={ e => {
           e.preventDefault();
           this.props.toggleShowProject(this.props._id);
