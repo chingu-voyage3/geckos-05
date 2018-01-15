@@ -31,6 +31,7 @@
 } */
 
 .project-card {
+  position: relative;
   box-shadow: 0 0 8px 2px var(--lt-yellow);
   border-radius: 2px;
   margin: var(--project-card-marg);

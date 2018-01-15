@@ -57,7 +57,12 @@ body, .App, .backdrop {
 
 .on-click-overlay {
   position: absolute;
-  top: 0; left: 50%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+.click-outside-overlay {
+  left: 50%;
   margin-left: -50vw;
   width: 100vw;
   height: 100%;

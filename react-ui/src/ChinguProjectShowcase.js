@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import OnClickOverlay from './on_click_overlay.js';
+import ClickOutsideOverlay from './click_outside_overlay.js';
 import Showcase from './showcase';
 import ProjectPopUp from './project.js';
 import SearchBar from './search_bar.js'
@@ -120,7 +120,7 @@ export default class ChinguProjectShowcase extends Component {
               pages={ this.pageProjects(this.state.projects) }
               toggleShowProject={ this.toggleShowProject }
             /> }
-          { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }
+          { this.state.openProject && <ClickOutsideOverlay handleOnClick={ this.toggleShowProject } /> }
           { this.state.openProject && this.renderProjectPage(this.state.openProject) }
         </div>
       </div>
