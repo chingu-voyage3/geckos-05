@@ -40,6 +40,7 @@ class SearchBar extends Component {
                     />
                     <select id="filterOptions"
                             name="filterOptions"
+                            className="dropdown"
                             onChange={this.handleChange}>
                         <option value="name">Project/ Repo Name</option>
                         <option value="description">Description</option>
