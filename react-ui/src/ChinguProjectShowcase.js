@@ -96,14 +96,14 @@ export default class ChinguProjectShowcase extends Component {
   handleChange = selectValue => {
     this.setState({selectValue: selectValue});
 }
-  
+
   renderProjectPage = projectId => {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
     });
 
     console.log(project);
-    
+
     return (
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
@@ -120,19 +120,19 @@ export default class ChinguProjectShowcase extends Component {
   }
 
   // note: "temporary" fix for TypeError: projects undefined when
-  // user searches for a term with no results. 
+  // user searches for a term with no results.
   whichDisplay = display => {
     if(this.state.hasError) {
-      return ( 
-        <div> 
+      return (
+        <div>
           <h2>Sorry there are no matching results! Refresh to try again!</h2>
         </div>
-        
+
       )
     } else{
     return (
         <Showcase
-          pages={ this.pageProjects(this.state.selectValue === "name" ? 
+          pages={ this.pageProjects(this.state.selectValue === "name" ?
           this.filteredProjects(this.state.projects): this.filteredDescription(this.state.projects))}
           toggleShowProject={ this.toggleShowProject }
         />
@@ -153,12 +153,12 @@ export default class ChinguProjectShowcase extends Component {
       })
     // this.fetchGithub("chingu-coders");
   }
-  
+
     // error handling
     componentDidCatch() {
       this.setState( { hasError: true})
     }
-  
+
 
   render() {
     return (
@@ -174,11 +174,9 @@ export default class ChinguProjectShowcase extends Component {
             handleChange={this.handleChange}
           />
           { this.state.fetching ?
-            <p>Fetching project data...</p> :
-            this.state.openProject ?
-              this.renderProjectPage(this.state.openProject) :
+              <p>Fetching project data...</p> :
               this.whichDisplay(this.state.show)
-          } 
+          }
           { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }
           { this.state.openProject && this.renderProjectPage(this.state.openProject) }
         </div>
