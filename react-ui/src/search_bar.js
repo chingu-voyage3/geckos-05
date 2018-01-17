@@ -35,11 +35,12 @@ class SearchBar extends Component {
                       className="text-field search-field"
                       type="text"
                       placeholder="Project search"
-                      value={term} 
+                      value={term}
                       onChange={this.onInputChange.bind(this)}
                     />
-                    <select id="filterOptions" 
-                            name="filterOptions" 
+                    <select id="filterOptions"
+                            name="filterOptions"
+                            className="dropdown"
                             onChange={this.handleChange}>
                         <option value="name">Project/ Repo Name</option>
                         <option value="description">Description</option>
