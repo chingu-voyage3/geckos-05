@@ -174,9 +174,7 @@ export default class ChinguProjectShowcase extends Component {
             handleChange={this.handleChange}
           />
           { this.state.fetching ?
-            <p>Fetching project data...</p> :
-            this.state.openProject ?
-              this.renderProjectPage(this.state.openProject) :
+              <p>Fetching project data...</p> :
               this.whichDisplay(this.state.show)
           }
           { this.state.openProject && <OnClickOverlay handleOnClick={ this.toggleShowProject } /> }

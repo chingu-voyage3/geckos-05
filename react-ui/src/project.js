@@ -19,7 +19,13 @@ export default class ProjectPopUp extends Component {
           <img className="project-img" src={ this.props.picture } alt="." />
           <p className="project-description">{ this.props.description }</p>
           <section className="resource-links">{ this.props.links }</section>
-          <p><a className="project-link repo-link" href={this.props.url}>{ this.props.url }</a></p>
+          <p>
+            <a
+              className="project-link repo-link"
+              href={this.props.url}
+              target="_blank"
+            >{ this.props.url }</a>
+          </p>
           { this.props.homepage && <p><a className="project-link demo-link" href={this.props.homepage}>{ this.props.homepage }</a></p>}
           <p className="contributors-list">{ this.props.contributors.join(", ") }</p>
         </div>
