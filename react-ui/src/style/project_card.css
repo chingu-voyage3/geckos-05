@@ -37,15 +37,15 @@
   box-sizing: border-box;
   height: 14rem;
   padding: 1.5rem;
-  background-color: white;
   transition: 0.3s;
+  background-color: var(--lt-grey);
+  cursor: pointer;
 }
 
 .project-card:hover {
   box-shadow: 0 0 12px 2px var(--lt-yellow);
-  cursor: pointer;
-  -webkit-transform: translate(0, -3px);
-  transform: translate(0, -3px)
+  background: white;
+
 }
 
 .project-heading {
