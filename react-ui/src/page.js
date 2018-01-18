@@ -21,7 +21,10 @@ export default class Page extends Component {
   render() {
     return (
       <div className="page">
-          { this.renderProjects(this.props.projects) }
+        { this.props.projects ?
+            this.renderProjects(this.props.projects) :
+            <h2 className="no-projects-found">Sorry, no projects found</h2>
+        }
       </div>
     )
   }

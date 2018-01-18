@@ -63,9 +63,21 @@ body, .App, .backdrop {
   height: 100%;
 }
 
+.masthead-container {
+  padding: 0 var(--project-card-marg);
+}
+
 .masthead {
-  margin: 2rem var(--project-card-marg);
+  margin: 2rem 0;
   font-weight: lighter;
+}
+
+.App .hidden {
+  color: transparent;
+}
+
+.fade-in {
+  transition: color .08s linear;
 }
 
 a {

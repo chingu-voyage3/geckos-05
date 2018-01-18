@@ -18,41 +18,11 @@ export default class ChinguProjectShowcase extends Component {
     }
   }
 
-  // api calls
-  // https://github.com/pksunkara/octonode
-  fetchGithub = (org) => {
-    fetch(`https://api.github.com/orgs/${org}/repos`)
-      .then(res => {
-        if (!res.ok) {
-          console.error("problem!", res.status);
-        }
-        // console.log(res);
-        return res.json();
-      })
-      .then(json => {
-        console.log(json);
-        this.setState(prev => {
-        if (prev.projects){
-          return {
-            projects: [...prev.projects, ...json],
-            fetching: false
-          }
-        } else {
-          return {
-            projects: json,
-            fetching: false
-          }
-        }
-        })
-      })
-  }
-
   // event handlers
   switchDisplay = display => {
   }
 
   toggleShowProject = projectId => {
-    console.log(projectId || "undefined");
     this.setState(prev => {
       if (prev.openProject === projectId) {
         return { openProject: null }
@@ -81,7 +51,7 @@ export default class ChinguProjectShowcase extends Component {
   // old filter suggestions: voyage, team, stack, category
   // will filter projects based on description * use with caution *
   filteredDescription = projects => {
-    const re = RegExp( this.state.term, 'i');
+    const re = RegExp(this.state.term, 'i');
     return projects.filter(
       project => re.test(project.description)
     );
@@ -93,7 +63,7 @@ export default class ChinguProjectShowcase extends Component {
     })
   };
 
-  handleChange = selectValue => {
+  selectValueChange = selectValue => {
     this.setState({selectValue: selectValue});
 }
 
@@ -101,9 +71,6 @@ export default class ChinguProjectShowcase extends Component {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
     });
-
-    console.log(project);
-
     return (
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image
@@ -143,21 +110,19 @@ export default class ChinguProjectShowcase extends Component {
   // lifecycle methods
   componentDidMount() {
     fetch("/api/projects", { "Accept": "application/json" })
-
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        // console.log(data);
-        this.setState({ projects: data, fetching: false });
-      })
-    // this.fetchGithub("chingu-coders");
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      // console.log(data);
+      this.setState({ projects: data, fetching: false });
+    })
   }
 
-    // error handling
-    componentDidCatch() {
-      this.setState( { hasError: true})
-    }
+  // error handling
+  componentDidCatch() {
+    this.setState( { hasError: true})
+  }
 
 
   render() {
@@ -167,11 +132,12 @@ export default class ChinguProjectShowcase extends Component {
         <div className="main-container">
           <div className="masthead-container">
             <h1 className="masthead">Chingu Project Showcase</h1>
-            <h3 className="masthead"> You are searching for: <strong>{this.state.term}</strong> </h3>
           </div>
           <SearchBar
+            term={ this.state.term }
+            selectValue={ this.state.selectValue }
             onInputChange={this.onInputChange}
-            handleChange={this.handleChange}
+            selectValueChange={this.selectValueChange}
           />
           { this.state.fetching ?
               <p>Fetching project data...</p> :
