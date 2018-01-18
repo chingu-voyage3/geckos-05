@@ -71,7 +71,6 @@ export default class ChinguProjectShowcase extends Component {
     const project = this.state.projects.filter(project => {
       return project._id === projectId
     });
-    console.log(project);
     return (
       <ProjectPopUp
         picture="https://fthmb.tqn.com/O4_y2C8U4MO-f2uaeI-aHVf8eek=/768x0/filters:no_upscale()/about-blank-58824fe55f9b58bdb3b27e21.png" //placeholder image

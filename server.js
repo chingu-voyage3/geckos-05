@@ -60,7 +60,7 @@ router.route("/projects")
     if (!req.body._id) {
       // create a new object
       const project = new Project();
-      console.log(project, req.body);
+      // console.log(project, req.body);
       // project = { ...project, ...req.body };
       // project.save(err => {
       //   if (err) { console.error(err) }
@@ -80,7 +80,7 @@ app.use("/api", router);
 // BUG: if "/" serves all sub-paths, how to restrict sub-paths and serve _only_ route "/"
 app.get("/", (req, res) => {
   const pathToReact = path.resolve(__dirname, "react-ui/build", "index.html");
-  console.log(pathToReact);
+  // console.log(pathToReact);
   res.sendFile(path.resolve(pathToReact));
 })
 

@@ -13,7 +13,6 @@ class SearchBar extends Component {
 <<<<<<< HEAD
     render() {
         const term = this.state.term;
-        console.log(this.state.selectValue)
         return (
             <div className="search-bar">
                 <form id="filterForm" name="filterForm">
