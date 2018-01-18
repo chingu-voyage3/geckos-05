@@ -7,6 +7,8 @@
 }
 
 .no-projects-found {
+  flex: 1 0 auto;
   font-weight: lighter;
   letter-spacing: .07rem;
+  text-align: center;
 }

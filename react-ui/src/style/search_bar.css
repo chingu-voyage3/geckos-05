@@ -9,6 +9,7 @@
 
 .filter-form {
   flex: 1 0 auto;
+  box-sizing: border-box;
   max-width: 566px;
 }
 
@@ -18,7 +19,7 @@
 }
 
 .search-field:focus {
-  width: calc(100% - 11rem);
+  width: calc(100% - 16.5rem);
   transition: all .25s ease-in-out;
 }
 
@@ -34,7 +35,7 @@
 .filter-term {
   font-weight: normal;
   font-style: normal;
-  letter-spacing: .15rem;
+  letter-spacing: .1rem;
   color: var(--near-black);
 }
 
