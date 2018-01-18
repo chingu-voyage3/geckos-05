@@ -1,14 +1,36 @@
 .search-bar {
   margin-bottom: 1.5rem;
+  padding: 0 var(--project-card-marg);
   text-align: right;
 }
 
 .search-field {
-  width: 7.5rem;
+  width: 8.1rem;
   transition: all .25s ease-in-out;
 }
 
 .search-field:focus {
-  width: 50%;
+  width: calc(50% - 8.5rem);
   transition: all .25s ease-in-out;
+}
+
+.filter-heading {
+  display: inline;
+  font-size: 1.2rem;
+  font-weight: lighter;
+  font-style: italic;
+  text-align: left;
+  color: var(--dark-grey);
+}
+
+.filter-term {
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: .15rem;
+  color: var(--near-black);
+}
+
+.filter-term:before {
+  content: "\20";
+  white-space: pre;
 }

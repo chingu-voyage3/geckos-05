@@ -23,7 +23,6 @@ export default class ChinguProjectShowcase extends Component {
   }
 
   toggleShowProject = projectId => {
-    console.log(projectId || "undefined");
     this.setState(prev => {
       if (prev.openProject === projectId) {
         return { openProject: null }
@@ -64,7 +63,7 @@ export default class ChinguProjectShowcase extends Component {
     })
   };
 
-  handleChange = selectValue => {
+  selectValueChange = selectValue => {
     this.setState({selectValue: selectValue});
 }
 
@@ -134,11 +133,12 @@ export default class ChinguProjectShowcase extends Component {
         <div className="main-container">
           <div className="masthead-container">
             <h1 className="masthead">Chingu Project Showcase</h1>
-            <h3 className="masthead"> You are searching for: <strong>{this.state.term}</strong> </h3>
           </div>
           <SearchBar
+            term={ this.state.term }
+            selectValue={ this.state.selectValue }
             onInputChange={this.onInputChange}
-            handleChange={this.handleChange}
+            selectValueChange={this.selectValueChange}
           />
           { this.state.fetching ?
               <p>Fetching project data...</p> :

@@ -23,7 +23,7 @@ export default class Page extends Component {
       <div className="page">
         { this.props.projects ?
             this.renderProjects(this.props.projects) :
-            <h2>Sorry, no projects found</h2>
+            <h2 className="no-projects-found">Sorry, no projects found</h2>
         }
       </div>
     )

@@ -6,4 +6,7 @@
   /* max-width: calc((var(--project-card-marg) * 6) + (var(--project-card-width) * 4)); */
 }
 
-.projects-container {}
+.no-projects-found {
+  font-weight: lighter;
+  letter-spacing: .07rem;
+}
