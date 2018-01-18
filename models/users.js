@@ -2,23 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    name: {
-        type: String,
-        validate: {
-            validator: (name) => {
-                return name.length > 4
-            },
-            message: "Name must be longer than 4 characters"
-        },
-        required: [true, "Name is required"]
-    },
-    password: {
-        type: String,
-        required: [true, "password is required"]
-    },
+    _id: String,
+    name: String,
+    avatar_url: String,
     projects: [{
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: "Project"
     }]
 });
