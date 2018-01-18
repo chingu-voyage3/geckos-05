@@ -16,7 +16,6 @@ export default class ProjectPopUp extends Component {
           <button className="btn close-btn close-project-btn" onClick={ this.props.toggleShowProject }>&times;</button>
         </h2>
         <div className="project-content">
-          <img className="project-img" src={ this.props.picture } alt="." />
           <p className="project-description">{ this.props.description }</p>
           <section className="resource-links">{ this.props.links }</section>
           <p>
