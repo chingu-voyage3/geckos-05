@@ -1,2 +1,2 @@
-web: sh -c 'cd react-ui && react-scripts start'
+web: sh -c 'cd react-ui && npm start'
 api: nodemon server.js

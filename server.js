@@ -2,10 +2,16 @@
 
 // dependencies
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
+const app = express();
+const router = express.Router();
+
+// models
+const Project = require("./models/projects.js");
 
 // load example data hardcoded in local file
-const DATA = require("./react-ui/src/data.js");
+// const DATA = require("./react-ui/src/data.js");
 
 // load local env vars only in development env
 if (process.env.NODE_ENV !== "production") {
@@ -15,10 +21,12 @@ if (process.env.NODE_ENV !== "production") {
 // env vars
 const PORT = process.env.NODE_ENV !== "production" ?
   (process.env.API_PORT || 3001) : process.env.PORT;
+const MONGO_URI = process.env.MONGODB_URI;
 
-// modules of dependencies
-const app = express();
-const router = express.Router();
+// wire up database
+mongoose.connect(MONGO_URI);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error"));
 
 // allow any origin for any route
 // TODO: I think I could change this is something more specific
@@ -38,9 +46,31 @@ router.get("/", (req, res) => {
 // CRUD methods for projects api
 router.route("/projects")
   .get((req, res) => {
-    res.set("Content-Type", "application/json");
-    res.send({ "projects": DATA });
+    Project.find({ "voyage": 2 }, (err, projects) => {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.set("Content-Type", "application/json");
+        res.json(projects);
+      }
+    });
   })
+  .post((req, res) => {
+    if (!req.body._id) {
+      // create a new object
+      const project = new Project();
+      // console.log(project, req.body);
+      // project = { ...project, ...req.body };
+      // project.save(err => {
+      //   if (err) { console.error(err) }
+      //   else console.log(`created project record: ${project}`)
+      // })
+    } else {
+      // project record exists, this is an edit
+
+    }
+  });
 
 // use above router config for calls to /api
 app.use("/api", router);
@@ -50,7 +80,7 @@ app.use("/api", router);
 // BUG: if "/" serves all sub-paths, how to restrict sub-paths and serve _only_ route "/"
 app.get("/", (req, res) => {
   const pathToReact = path.resolve(__dirname, "react-ui/build", "index.html");
-  console.log(pathToReact);
+  // console.log(pathToReact);
   res.sendFile(path.resolve(pathToReact));
 })
 

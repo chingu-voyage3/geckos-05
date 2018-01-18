@@ -1,0 +1,45 @@
+.search-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0 var(--project-card-marg);
+  text-align: right;
+}
+
+.filter-form {
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  max-width: 566px;
+}
+
+.search-field {
+  width: 8.1rem;
+  transition: all .25s ease-in-out;
+}
+
+.search-field:focus {
+  width: calc(100% - 16.5rem);
+  transition: all .25s ease-in-out;
+}
+
+.filter-heading {
+  display: inline;
+  font-size: 1.2rem;
+  font-weight: lighter;
+  font-style: italic;
+  text-align: left;
+  color: var(--dark-grey);
+}
+
+.filter-term {
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: .1rem;
+  color: var(--near-black);
+}
+
+.filter-term:before {
+  content: "\20";
+  white-space: pre;
+}

@@ -1,0 +1,17 @@
+@import "./simple-grid-css.min.css";
+@import "./layout-vars.css";
+@import "./colors.css";
+@import "./app.css";
+@import "./showcase.css";
+@import "./page.css";
+@import "./page_nav.css";
+@import "./project_card.css";
+@import "./project_pop_up.css";
+@import './search_bar.css';
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  font-family: sans-serif;
+}
