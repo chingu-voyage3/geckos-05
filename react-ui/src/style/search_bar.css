@@ -1,7 +1,15 @@
 .search-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
   padding: 0 var(--project-card-marg);
   text-align: right;
+}
+
+.filter-form {
+  flex: 1 0 auto;
+  max-width: 566px;
 }
 
 .search-field {
@@ -10,7 +18,7 @@
 }
 
 .search-field:focus {
-  width: calc(50% - 8.5rem);
+  width: calc(100% - 11rem);
   transition: all .25s ease-in-out;
 }
 

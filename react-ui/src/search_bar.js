@@ -42,10 +42,15 @@ class SearchBar extends Component {
       const term = this.props.term;
       return (
         <div className="search-bar">
-          <form id="filterForm" name="filterForm" onSubmit={ e => e.preventDefault() }>
-            <h3
-              className={ this.props.term ? "filter-heading" : "hidden filter-heading" }
-            >You are searching for: <span className="filter-term">{this.props.term}</span></h3>
+          <h3
+            className={ this.props.term ? "fade-in filter-heading" : "fade-in filter-heading hidden" }
+          >You are searching for: <span className="filter-term">{this.props.term}</span></h3>
+          <form
+            id="filterForm"
+            name="filterForm"
+            className="filter-form"
+            onSubmit={ e => e.preventDefault() }
+          >
             <input
               id="filterTextInput"
               name="filterTextInput"

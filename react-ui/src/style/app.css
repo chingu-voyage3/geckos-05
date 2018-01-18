@@ -72,8 +72,12 @@ body, .App, .backdrop {
   font-weight: lighter;
 }
 
-.hidden {
-  visibility: hidden;
+.App .hidden {
+  color: transparent;
+}
+
+.fade-in {
+  transition: color .08s linear;
 }
 
 a {
