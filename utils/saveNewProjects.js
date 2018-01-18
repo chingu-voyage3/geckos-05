@@ -6,7 +6,7 @@ const uniqid = require("uniqid");
 require("dotenv").load();
 
 // database models
-const Project = require("./models/projects.js");
+const Project = require("../models/projects.js");
 
 // constants
 const API_URL = "https://api.github.com";
@@ -74,7 +74,8 @@ function getNewProjects(req, fn) {
           if (err) {
             console.error("Error in search for existing project record", err);
           } else if (result) {
-            // if no `voyage` prop, update it by parsing url
+            // check for presence of `voyage` props
+            // if no `voyage` prop, update it by parsing repo url
             if (!result.voyage) {
               console.log("Project record is missing voyage", result);
               const voyage = result.repo.includes("chingu-coders" || "Voyage2" || "voyage2") ?
@@ -137,6 +138,9 @@ function getNewProjects(req, fn) {
   })
 }
 
+// data should be the complete gh response
+// obj should be an instance of the Project model
+// fn receives obj as argument
 function requestStack(data, obj, fn) {
   request.get({ url: data.languages_url, headers: data.reqHeaders },
     (err, res, body) => {
