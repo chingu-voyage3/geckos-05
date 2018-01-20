@@ -12,7 +12,7 @@ const UsersSchema = new Schema({
     }]
 });
 
-userSchema.virtual("numOfProjects").get(function () {
+UsersSchema.virtual("numOfProjects").get(function () {
     return this.projects.length;
 });
 

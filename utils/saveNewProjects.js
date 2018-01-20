@@ -61,7 +61,7 @@ getNewProjects(
         )
       }
     )
-  })
+  });
 
 function getNewProjects(req, fn) {
   request.get(req, (err, res, body) => {
