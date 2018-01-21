@@ -5,6 +5,10 @@ const request = require("request");
 const uniqid = require("uniqid");
 require("dotenv").load();
 
+// local modules
+const queryProjects = require("./queryProjects.js");
+const saveUsers = require("./saveUsers.js");
+
 // db models
 const Project = require("../models/projects.js");
 const User = require("../models/users.js");
@@ -17,6 +21,9 @@ const headers = {
   "User-Agent": "ckingbailey",
   Authorization: "Basic " + btoa(GH_LOGIN)
 };
+
+// command line arguments
+const ARGS = process.argv.slice(2);
 
 // wire up database
 const DB_URI = process.env.MONGODB_URI;
@@ -32,33 +39,10 @@ db.on("error", console.error
 // globals
 let counter = 0;
 
-queryProjects((url, id) => {
-  fetchUsers(url, id, saveUser);
-});
-
-// find all projects
-function queryProjects(fn) {
-  Project.find({ voyage: 2 }, (err, projects) => {
-    if (err) {
-      console.error(err);
-    }
-    else {
-    // iterate over each project, passing its gh contributors api url to callback
-      console.log("num of projects", projects.length);
-      projects.forEach(proj => {
-      // replace repo url with gh api url for repo
-        const api_url = proj.repo.replace("https://github.com", "https://api.github.com/repos") + "/contributors";
-      // also pass project _id to cb
-        fn(api_url, proj._id);
-      })
-    }
-  });
-}
-
 // call gh contributors api for one repo and pass response to cb
 // also takes project _id
-function fetchUsers(usersURL, projectId, fn) {
-  // can I declare this outside these fns so I don't have to repeat myself?
+function fetchUsers(apiURL, projectId, fn) {
+  const usersURL = apiURL + "/contributors";
   const req = { url: usersURL, headers };
   request.get(req, (err, res, body) => {
     if (err) {
@@ -105,39 +89,6 @@ function fetchUsers(usersURL, projectId, fn) {
           });
         } else console.log(++counter, "!Array", usersURL, json);
       } else console.log(++counter, "!JSON", res.headers["content-type"], usersURL);
-    }
-  });
-}
-
-// if isNewUser, userObj is a new record
-// if !isNewUser, userObj is an update to an existing record
-function saveUser(userObj, isNewUser) {
-  if (isNewUser) {
-    userObj.save((err, newUserRecord) => {
-      if (err) {
-        console.error(err);
-      }
-      else console.log("user record created:\n", newUserRecord);
-    });
-  } else userObj.update(userObj, (err, raw) => {
-    if (err) console.error(err);
-    else console.log("user record updated:\n", raw);
-  });
-}
-
-// NOTE: this fcn is currently unnecessary
-// call gh repo api for one repo and pass response to a cb
-// also takes project _id
-function fetchRepo(repoURL, id, fn) {
-  const req = { url: repoURL, headers };
-  request.get(req, (err, res, body) => {
-    if (err) {
-      console.error(err);
-    }
-    else {
-    // pass whole repo response to callback
-    // should I check that it's valid JSON first?
-      fn(JSON.parse(body).contributors_url);
     }
   });
 }
