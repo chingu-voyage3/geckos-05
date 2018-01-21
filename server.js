@@ -6,6 +6,10 @@ const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
 const router = express.Router();
+const passport = require('passport');
+const GitHubStrategy = require('passport-github').Strategy
+const keys = require('./config/keys');
+
 
 // models
 const Project = require("./models/projects.js");
@@ -83,6 +87,28 @@ app.get("/", (req, res) => {
   // console.log(pathToReact);
   res.sendFile(path.resolve(pathToReact));
 })
+
+// ouath with passport
+passport.use(
+  new GitHubStrategy({
+    clientID: keys.githubClientID,
+    clientSecret: keys.githubClientSecret,
+    // callbackURL: 'https://geckos-05-winter17.herokuapp.com/auth/github/callback'
+    callbackURL: 'http://127.0.0.1:3001/auth/github/callback'
+  },
+  (accessToken, refreshToken, profile, done) => {
+    console.log('access token', accessToken);
+    console.log('refresh token', refreshToken);
+    console.log('profile', profile);
+}
+));
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github')
+ );
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
