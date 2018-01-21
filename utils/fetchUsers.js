@@ -12,17 +12,7 @@ const User = require("../models/users.js");
 // api call constants
 const API_URL = "https://api.github.com";
 const GH_LOGIN = process.env.GH_LOGIN + ":" + process.env.GH_TOKEN;
-// const ARGS = process.argv.slice(2);
 const USER_AGENT = "ckingbailey";
-// const VOYAGE_NAME = ARGS.filter(arg => {
-//     return !arg.includes("=")
-//   }).join("") || "chingu-coders";
-// const OPTIONS = ARGS.filter(arg => {
-//     return arg.includes("=")
-//   }).join("") && "?" + ARGS.filter(arg => {
-//     return arg.includes("=");
-//   }).join("&");
-// const REQ_URL = `${API_URL}/orgs/${VOYAGE_NAME}/repos${OPTIONS}`;
 const headers = {
   "User-Agent": "ckingbailey",
   Authorization: "Basic " + btoa(GH_LOGIN)
@@ -39,22 +29,22 @@ const db = mongoose.connection;
 db.on("error", console.error
   .bind(console, "MongoDB connection error"));
 
+// globals
+let counter = 0;
+
 queryProjects((url, id) => {
-  fetchUsers(url, id, (user, bool) => {
-    if (bool) console.log("new user: ", user);
-    else console.log("existing user: ", user);
-  });
+  fetchUsers(url, id, saveUser);
 });
 
 // find all projects
 function queryProjects(fn) {
-  Project.find({ "voyage": 2 }, (err, projects) => {
+  Project.find({ voyage: 2 }, (err, projects) => {
     if (err) {
       console.error(err);
     }
     else {
     // iterate over each project, passing its gh contributors api url to callback
-      what(projects.length);
+      console.log("num of projects", projects.length);
       projects.forEach(proj => {
       // replace repo url with gh api url for repo
         const api_url = proj.repo.replace("https://github.com", "https://api.github.com/repos") + "/contributors";
@@ -77,43 +67,50 @@ function fetchUsers(usersURL, projectId, fn) {
     else {
     // if contributors returns a response save each contrib as a new user
     // should I first test for valid JSON? ["Content-Type"] === "application/json"
-      JSON.parse(body).forEach(contributor => {
-      // test if user already exists
-        User.findOne({ name: contributor.login }, (err, user) => {
-          if (err) throw new Error(err);
-          else if (user) {
-          // test for existence of various props
-            const updateUser = {};
-            if (!user.ghId) {
-              updateUser.ghId = contributor.id;
-            } else if (!user.avatar_url) {
-              updateUser.avatar_url = contributor.avatar_url.slice(0, contributor.avatar_url.indexOf("?"));
-            } else if (!user.projects.includes(projectId)) {
-              if (Array.isArray(user.projects)) {
-                updateUser.projects.push(projectId);
-              } else updateUser.projects = [ projectId ];
-            } else if (Object.keys(updateUser).length) {
-            // if updateUser has received any props, pass it along to callback
-            // `false` indicates this is an update to an existing record
-              fn(updateUser, false);
-            } else return;
-          // if no result from query, instantiate new User object and pass it to cb
-          } else {
-            const newUser = new User();
-            newUser.name = contributor.login;
-            newUser._id = uniqid();
-            newUser.ghId = contributor.id;
-            newUser.avatar_url = contributor.avatar_url.slice(0, contributor.avatar_url.indexOf("?"));
-            newUser.projects = [ projectId ];
-          // `true` indicates this is a new user record
-            fn(newUser, true);
-          }
-        })
-      })
+      if (res.headers["content-type"].includes("application/json")) {
+        const json = JSON.parse(body);
+        if (Array.isArray(json)) {
+          JSON.parse(body).forEach(contributor => {
+          // test if user already exists
+            User.findOne({ name: contributor.login }, (err, user) => {
+              if (err) throw new Error(err);
+              else if (user) {
+              // test for existence of various props
+                const updateUser = {};
+                if (!user.ghId) {
+                  updateUser.ghId = contributor.id;
+                } else if (!user.avatar_url) {
+                  updateUser.avatar_url = contributor.avatar_url.slice(0, contributor.avatar_url.indexOf("?"));
+                } else if (!user.projects.includes(projectId)) {
+                  if (Array.isArray(user.projects)) {
+                    updateUser.projects.push(projectId);
+                  } else updateUser.projects = [ projectId ];
+                } else if (Object.keys(updateUser).length) {
+                // if updateUser has received any props, pass it along to callback
+                // `false` indicates this is an update to an existing record
+                  fn(updateUser, false);
+                } else return;
+              // if no result from query, instantiate new User object and pass it to cb
+              } else {
+                const newUser = new User();
+                newUser.name = contributor.login;
+                newUser._id = uniqid();
+                newUser.ghId = contributor.id;
+                newUser.avatar_url = contributor.avatar_url.slice(0, contributor.avatar_url.indexOf("?"));
+                newUser.projects = [ projectId ];
+              // `true` indicates this is a new user record
+                fn(newUser, true);
+              }
+            });
+          });
+        } else console.log(++counter, "!Array", usersURL, json);
+      } else console.log(++counter, "!JSON", res.headers["content-type"], usersURL);
     }
   });
 }
 
+// if isNewUser, userObj is a new record
+// if !isNewUser, userObj is an update to an existing record
 function saveUser(userObj, isNewUser) {
   if (isNewUser) {
     userObj.save((err, newUserRecord) => {
