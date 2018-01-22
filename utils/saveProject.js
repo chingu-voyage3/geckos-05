@@ -1,5 +1,5 @@
 // needs DB connection in addition to this Project model
-const Project = require("../models/project");
+const Project = require("../models/projects");
 
 // if existing project, update it
 // if new project, save it

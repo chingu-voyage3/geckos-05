@@ -1,7 +1,7 @@
 const User = require("../models/users");
 
 // update `contributors` prop to use `_id` instead of `name`
-module.exports = function contribsToIDs(project, fn) => {
+module.exports = function contribsToIDs(project, fn) {
   const contribs = project.contributors;
   // not using a method of Array here bc I don't want the update to go to a cb
   // contribs array should update completely before being passed to fn(project)
