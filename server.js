@@ -93,7 +93,7 @@ passport.use(
   new GitHubStrategy({
     clientID: keys.githubClientID,
     clientSecret: keys.githubClientSecret,
-    callbackURL: 'https://geckos-05-winter17.herokuapp.com/auth/github/callback'
+    callbackURL: '/auth/github/callback'
     // callbackURL: 'http://127.0.0.1:3001/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
