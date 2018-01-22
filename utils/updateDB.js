@@ -5,15 +5,7 @@ const request = require("request");
 const uniqid = require("uniqid");
 require("dotenv").load();
 
-// local modules
-const queryProjects = require("./queryProjects.js");
-const saveUsers = require("./saveUsers.js");
-
-// db models
-const Project = require("../models/projects.js");
-const User = require("../models/users.js");
-
-// api call constants
+// GH api call constants
 const API_URL = "https://api.github.com";
 const GH_LOGIN = process.env.GH_LOGIN + ":" + process.env.GH_TOKEN;
 const USER_AGENT = "ckingbailey";
@@ -38,3 +30,6 @@ db.on("error", console.error
 
 // globals
 let counter = 0;
+
+// require and invoke local module all in one step
+require("./fixUserCollection")();

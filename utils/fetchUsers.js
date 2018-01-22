@@ -1,3 +1,5 @@
+const User = require("../models/users.js");
+
 // call gh contributors api for one repo and pass response to cb
 // also takes project _id
 function fetchUsers(project, fn) {
