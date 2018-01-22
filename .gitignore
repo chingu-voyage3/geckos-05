@@ -1,4 +1,6 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
+# binary files
+/assets
 
 # dependencies
 /node_modules
@@ -23,3 +25,4 @@ yarn-error.log*
 
 # Procfile for development environment
 Procfile.dev
+keys.js
