@@ -25,3 +25,4 @@ yarn-error.log*
 
 # Procfile for development environment
 Procfile.dev
+keys.js
