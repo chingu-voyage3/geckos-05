@@ -1,8 +1,10 @@
+const Project = require("../models/projects.js");
+
 // find all projects
-function queryProjects(model, query, fn) {
+module.exports = function queryProjects(Project, query, fn) {
   // test for presence of args
   if (typeof query === "object") {
-    model.find(query, (err, projects) => {
+    Project.find(query, (err, projects) => {
       if (err) {
         console.error(err);
       }
@@ -18,7 +20,7 @@ function queryProjects(model, query, fn) {
   // if `query` omitted, set `fn` to `query`
   else if (typeof query === "function") {
     fn = query;
-    model.find((err, projects) => {
+    Project.find((err, projects) => {
       if (err) {
         console.error(err);
       }

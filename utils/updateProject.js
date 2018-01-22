@@ -1,5 +1,7 @@
+const User = require("../models/users.js");
+
 // update `contributors` prop to use `_id` instead of `name`
-function updateProject(project, fn) => {
+module.exports = function updateProject(project, fn) => {
   project.contributors.forEach((name, i) => {
     // query each User by name from contribs Array
     User.find({ name }, "_id", (err, result) => {
@@ -12,5 +14,3 @@ function updateProject(project, fn) => {
     })
   });
 }
-
-module.exports = updateProject;

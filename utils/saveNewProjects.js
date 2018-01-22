@@ -70,6 +70,7 @@ function getNewProjects(req, fn) {
         req.url, err);
     } else {
       JSON.parse(body).forEach((data, i) => {
+        // check for existing project
         Project.findOne({ ghId: data.id }, function(err, result) {
           if (err) {
             console.error("Error in search for existing project record", err);
@@ -87,7 +88,9 @@ function getNewProjects(req, fn) {
                 } else console.log("project updated", raw);
               });
             } else console.log("Existing project record: ", result.ghId);
-          } else {
+          }
+          // if no existing project, intantiate a new one
+          else {
             const project = new Project();
             const voyageNum = data.url.includes("chingu-voyage3") ?
               3 : data.url.includes("chingu-coders" || "Voyage2" || "voyage2") ?
@@ -104,6 +107,7 @@ function getNewProjects(req, fn) {
           }
         });
       });
+      // traverse pages of results
       if (res.headers.link && res.headers.link.includes('rel="next"')) {
         var links = parseLinkHeader(res.headers.link);
         // if (links.next < 1) {
