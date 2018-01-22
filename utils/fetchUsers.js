@@ -41,8 +41,9 @@ let counter = 0;
 
 // call gh contributors api for one repo and pass response to cb
 // also takes project _id
-function fetchUsers(apiURL, projectId, fn) {
-  const usersURL = apiURL + "/contributors";
+function fetchUsers(project, fn) {
+  // replace gh repo url with repo api contributors url
+  const usersURL = project.repo.replace("https://github.com", "https://api.github.com/repos") + "/contributors";
   const req = { url: usersURL, headers };
   request.get(req, (err, res, body) => {
     if (err) {

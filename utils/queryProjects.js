@@ -7,13 +7,10 @@ function queryProjects(model, query, fn) {
         console.error(err);
       }
       else {
-      // iterate over each project, passing its gh contributors api url to callback
+      // iterate over each project, passing it to callback
         console.log("num of projects", projects.length);
         projects.forEach(proj => {
-        // replace repo url with gh api url for repo
-          const api_url = proj.repo.replace("https://github.com", "https://api.github.com/repos");
-        // also pass project _id to cb
-          fn(api_url, proj._id);
+          fn(proj);
         })
       }
     });
@@ -26,13 +23,10 @@ function queryProjects(model, query, fn) {
         console.error(err);
       }
       else {
-      // iterate over each project, passing its gh contributors api url to callback
+      // iterate over each project, passing it to callback
         console.log("num of projects", projects.length);
         projects.forEach(proj => {
-        // replace repo url with gh api url for repo
-          const api_url = proj.repo.replace("https://github.com", "https://api.github.com/repos") + "/contributors";
-        // also pass project _id to cb
-          fn(api_url, proj._id);
+          fn(proj);
         })
       }
     });
