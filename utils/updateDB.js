@@ -32,4 +32,5 @@ db.on("error", console.error
 let counter = 0;
 
 // require and invoke local module all in one step
-require("./fixUserCollection")();
+// require("./fixUserCollection")();
+require("./createVoyages")();

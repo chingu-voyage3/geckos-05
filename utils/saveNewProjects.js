@@ -2,7 +2,7 @@
 const btoa = require("btoa");
 const mongoose = require("mongoose");
 const request = require("request");
-const uniqid = require("uniqid");
+// const uniqid = require("uniqid");
 require("dotenv").load();
 
 // database models
@@ -95,7 +95,6 @@ function getNewProjects(req, fn) {
             const voyageNum = data.url.includes("chingu-voyage3") ?
               3 : data.url.includes("chingu-coders" || "Voyage2" || "voyage2") ?
                 2 : 0;
-            project["_id"] = uniqid();
             project.ghId = data.id;
             project.name = data.name;
             project.description = data.description;

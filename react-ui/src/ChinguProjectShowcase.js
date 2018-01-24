@@ -114,7 +114,7 @@ export default class ChinguProjectShowcase extends Component {
       return res.json();
     })
     .then(data => {
-      // console.log(data);
+      console.log(data);
       this.setState({ projects: data, fetching: false });
     })
   }
