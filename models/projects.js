@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const Voyage = require("./voyages.js");
 
 const ProjectsSchema = new Schema({
-    _id: String,
     ghId: String,
     name: String,
     description: String,
@@ -12,7 +11,7 @@ const ProjectsSchema = new Schema({
     tech_stack: [ String ],
     tags: [ String ],
     voyage: {
-      type: Schema.Types.Number,
+      type: Schema.Types.ObjectId,
       ref: "Voyage"
     },
     team: {
@@ -20,7 +19,7 @@ const ProjectsSchema = new Schema({
       ref: "Team"
     },
     contributors: [{
-      type: Schema.Types.String,
+      type: Schema.Types.ObjectId,
       ref: "User"
     }]
 });

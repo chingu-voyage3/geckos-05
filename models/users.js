@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
-    _id: String,
     ghId: String,
     name: String,
     avatar_url: String,
     projects: [{
-        type: String,
+        type: Schema.Types.ObjectId,
         ref: "Project"
     }]
 });

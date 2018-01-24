@@ -3,6 +3,8 @@ const queryProjects = require("./queryProjects");
 const contribsToIDs = require("./contribsToIDs");
 const saveProject = require("./saveProject");
 
-module.exports = () => queryProjects(project => {
-  console.log(`${project._id}: ${project.contributors}`);
+module.exports = () => queryProjects({ voyage: 2}, project => {
+  contribsToIDs(project, project => {
+    console.log(`${project.repo}: ${project.contributors}`);
+  })
 });
