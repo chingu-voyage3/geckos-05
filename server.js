@@ -8,8 +8,6 @@ const app = express();
 const router = express.Router();
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy
-const keys = require('./config/keys');
-
 
 // models
 const Project = require("./models/projects.js");
@@ -91,8 +89,8 @@ app.get("/", (req, res) => {
 // ouath with passport
 passport.use(
   new GitHubStrategy({
-    clientID: keys.githubClientID,
-    clientSecret: keys.githubClientSecret,
+    clientID: process.env.GH_CLIENT_ID,
+    clientSecret: process.env.GH_CLIENT_SECRET,
     callbackURL: '/auth/github/callback'
     // callbackURL: 'http://127.0.0.1:3001/auth/github/callback'
   },
@@ -106,7 +104,7 @@ passport.use(
 app.get('/auth/github',
   passport.authenticate('github'));
 
-app.get('/auth/github/callback', 
+app.get('/auth/github/callback',
   passport.authenticate('github')
  );
 
